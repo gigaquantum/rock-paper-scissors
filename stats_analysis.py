@@ -30,27 +30,60 @@ Student C: Statistics & Analysis
 
 def track_win_loss_tie(data):
     """Tracks the result of each match/throw for the player."""
-    wins = 0
+    win = 0
     loss = 0 
     tie = 0 
     for tournament in data:
         for match in tournament:
             if match["winner"] == "player":
-                wins += 1
+                win += 1
             elif match["winner"] == "ai":
                 loss += 1
             elif match["winner"] == "none":
                 tie += 1
-    return wins, loss, tie
+    return win, loss, tie
 
 
 #calculate win percentage
-def win_percentage(wins,loss,tie):
+def win_percentage(win,loss,tie):
     """Tracks the percentage of wins for the user across all tournaments"""
-    total_match = wins + loss + tie
+    total_match = win + loss + tie
     if total_match == 0: #no division by 0 
         return 0 
-    return((wins/total_match)*100)
+    return((win/total_match)*100)
 
-def current_streak(wins,loss):
+def current_streak(data):
     """If the last 2 matches have been wins then user is on a winning streak, if last 2 matches have been losses, user is on a losing streak."""
+   
+    match_result = []
+    for tournament in data: #collect my match results in order of being played
+        for match in tournament:
+            if match["winner"] == "player":
+                match_result.append("win")
+            elif match["winner"] == "ai":
+                match_result.append("loss")
+    
+    if len(match_result) < 2:
+        return "No streak yet, not enough matches have been played"
+    
+    last_two = match_result[-2:] #compares only the last 2 results from the tournament
+    streak_count = 0 
+
+
+    if last_two[0] == last_two[1] and last_two[0] != "tie": #if the last two are the same then my streak count increases, if there is a tie or the last two dont match that breaks the streak
+        streak_count += 1
+    else:
+        streak_count = 0 
+
+    if last_two == ["win","win"]: 
+        streak_type = "winning streak"
+    elif last_two == ["loss","loss"]:
+        streak_type = "losing streak"
+    else:
+        streak_type = "no streak"
+    
+    return streak_count , streak_type
+
+    #this code isn't dynamic, so each time a new match is played we need to update the match result, so should we have another function to update it as the game is played? 
+
+        
