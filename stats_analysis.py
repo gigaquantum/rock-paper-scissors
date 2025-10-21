@@ -213,6 +213,7 @@ def track_ai_choice(data):
 #     return rock, paper, scissors, rock_tie, rock_winner_ai, rock_winner_p, paper_tie, paper_winner_ai, paper_winner_p, scissor_tie, scissor_winner_ai, scissor_winner_p
 
 def head_to_head(data):
+    """Tracks the results based on throw type over all tournaments. Returns a dictionary with the results."""
     all_results = {
         "rock": {"total": 0 , "player_win": 0, "ai_win": 0, "tie": 0},
         "paper": {"total": 0 , "player_win": 0, "ai_win": 0, "tie": 0},
