@@ -12,7 +12,7 @@ import random
 MOVE_CHOICES = ["rock", "paper", "scissors"]
 
 
-def flatten_match_data(move_data: list[list[dict]]) -> list[dict]:
+def _flatten_match_data(move_data: list[list[dict]]) -> list[dict]:
     """Flattens the match data to prepare it for analysis."""
 
     return [match_dict for tournament in move_data for match_dict in tournament]
@@ -23,7 +23,7 @@ def get_random_ai_move() -> str:
     return MOVE_CHOICES[random.randint(0, 2)]
 
 
-def get_counter_to_move(move: str) -> str:
+def _get_counter_to_move(move: str) -> str:
     if move == "rock":
         return "paper"
     if move == "paper":
@@ -33,7 +33,7 @@ def get_counter_to_move(move: str) -> str:
     raise ValueError(f"'{move}' is not a valid move.")
 
 
-def get_top_move(rock_count: int, paper_count: int, scissors_count: int) -> str:
+def _get_top_move(rock_count: int, paper_count: int, scissors_count: int) -> str:
     """Gets the top move based on the provided counts. If there's a tie, randomly chooses from the tied top moves."""
 
     top_moves = []
@@ -51,7 +51,7 @@ def get_top_move(rock_count: int, paper_count: int, scissors_count: int) -> str:
 def get_counter_ai_move(move_data: list[list[dict]]) -> str:
     """Chooses the move countering the player's most used move. If multiple moves are tied for being the most used, one of the tied moves will be randomly selected to be countered."""
 
-    flattened_data = flatten_match_data(move_data)
+    flattened_data = _flatten_match_data(move_data)
 
     rock_count = 0
     paper_count = 0
@@ -64,18 +64,18 @@ def get_counter_ai_move(move_data: list[list[dict]]) -> str:
         else:
             scissors_count += 1
 
-    move_to_counter = get_top_move(rock_count, paper_count, scissors_count)
-    return get_counter_to_move(move_to_counter)
+    move_to_counter = _get_top_move(rock_count, paper_count, scissors_count)
+    return _get_counter_to_move(move_to_counter)
 
 
 def get_pattern_ai_move(move_data: list[list[dict]], context_length: int = 3) -> str:
     """Predicts the player's next move based on the player's previous moves, up to the context_length number of moves. If there's a tie, select randomly from the top predictions. If there's no data, selects a random move. If there's only one previous round, selects the move that beats the user's first move."""
 
-    flattened_data = flatten_match_data(move_data)
+    flattened_data = _flatten_match_data(move_data)
     if len(flattened_data) == 0:
         return get_random_ai_move()
     if len(flattened_data) == 1:
-        return get_counter_to_move(flattened_data[0]["player_move"])
+        return _get_counter_to_move(flattened_data[0]["player_move"])
 
     num_dimensions = min(context_length, len(flattened_data) - 1)
 
@@ -103,12 +103,12 @@ def get_pattern_ai_move(move_data: list[list[dict]], context_length: int = 3) ->
         next_level = current_context_data[move]
         current_context_data = next_level
 
-    move_to_counter = get_top_move(
+    move_to_counter = _get_top_move(
         current_context_data["rock"],
         current_context_data["paper"],
         current_context_data["scissors"],
     )
-    return get_counter_to_move(move_to_counter)
+    return _get_counter_to_move(move_to_counter)
 
 
 if __name__ == "__main__":
