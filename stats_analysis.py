@@ -43,6 +43,16 @@ def track_win_loss_tie(data):
                 tie += 1
     return win, loss, tie
 
+def collect_match_result(data):
+  """This makes a list of the wins, loss, ties per tournament. This can then be used in other functions."""
+  match_result = []
+  for tournament in data: #collect my match results in order of being played
+        for match in tournament:
+            if match["winner"] == "player":
+                match_result.append("win")
+            elif match["winner"] == "ai":
+                match_result.append("loss")
+  return match_result
 
 #calculate win percentage
 def win_percentage(win,loss,tie):
@@ -54,15 +64,7 @@ def win_percentage(win,loss,tie):
 
 def current_streak(data):
     """If the last 2 matches have been wins then user is on a winning streak, if last 2 matches have been losses, user is on a losing streak."""
-   
-    match_result = []
-    for tournament in data: #collect my match results in order of being played
-        for match in tournament:
-            if match["winner"] == "player":
-                match_result.append("win")
-            elif match["winner"] == "ai":
-                match_result.append("loss")
-    
+    match_result = collect_match_result(data) #this calls my function above that stores all my match results 
     if len(match_result) < 2:
         return "No streak yet, not enough matches have been played"
     
@@ -86,4 +88,20 @@ def current_streak(data):
 
     #this code isn't dynamic, so each time a new match is played we need to update the match result, so should we have another function to update it as the game is played? 
 
-        
+def longest_win_streak(data):
+    """Takes a look at each tournament and determines what the longest streak in that tournament was."""
+    match_result = collect_match_result(data)
+
+    longest_streak = 0 
+    current_streak_count = 0
+
+    for r in match_result:
+        if r == "win":
+            current_streak_count += 1
+            if current_streak_count > longest_streak:
+                longest_streak = current_streak_count
+        else:
+            current_streak_count = 0
+    
+    return longest_streak
+    
