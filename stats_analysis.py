@@ -157,57 +157,80 @@ def track_ai_choice(data):
     return most_common_ai_choice
 
 
+# def head_to_head(data):
+#     """Keeps track of the results based on throw type."""
+#     rock = 0
+#     scissors = 0
+#     paper = 0
+
+#     scissor_winner_p = 0
+#     scissor_winner_ai = 0
+#     scissor_tie = 0
+
+#     rock_winner_p = 0
+#     rock_winner_ai = 0
+#     rock_tie = 0
+
+#     paper_winner_p = 0
+#     paper_winner_ai = 0
+#     paper_tie = 0
+
+#     for tournament in data: 
+#         for match in tournament:
+#             if match["player_move"] == "scissors" or match['ai_move'] == "scissors":
+#                 scissors += 1 
+#             if match["winner"] == "player" and match["player_move"] == "scissors":
+#                 scissor_winner_p += 1
+#             elif match["winner"] == "ai" and match["ai_move"] == "scissors":
+#                 scissor_winner_ai += 1
+#             elif match["winner"] == "none" and match["ai_move"] == "scissors" and match["player_move"] == "scissors":
+#                 scissor_tie += 1
+
+
+#     for tournament in data: 
+#         for match in tournament:
+#             if match["player_move"] == "rock" or match['ai_move'] == "rock":
+#                 rock += 1 
+#             if match["winner"] == "player" and match["player_move"]== "rock":
+#                 rock_winner_p += 1
+#             elif match["winner"] == "ai" and match["ai_move"]== "rock":
+#                 rock_winner_ai += 1
+#             elif match["winner"] == "none" and match["ai_move"]=="rock" and match["player_move"] == "rock":
+#                 rock_tie += 1
+
+
+#     for tournament in data: 
+#         for match in tournament:
+#             if match["player_move"] == "paper" or match['ai_move'] == "paper":
+#                 paper += 1 
+#             if match["winner"] == "player" and match["player_move"]== "paper":
+#                 paper_winner_p += 1
+#             elif match["winner"] == "ai" and match["ai_move"]== "paper":
+#                 paper_winner_ai += 1
+#             elif match["winner"] == "none" and match["ai_move"]=="paper" and match["player_move"] == "paper":
+#                 paper_tie += 1
+
+#     return rock, paper, scissors, rock_tie, rock_winner_ai, rock_winner_p, paper_tie, paper_winner_ai, paper_winner_p, scissor_tie, scissor_winner_ai, scissor_winner_p
+
 def head_to_head(data):
-    """Keeps track of the results based on throw type."""
-    rock = 0
-    scissors = 0
-    paper = 0
-
-    scissor_winner_p = 0
-    scissor_winner_ai = 0
-    scissor_tie = 0
-
-    rock_winner_p = 0
-    rock_winner_ai = 0
-    rock_tie = 0
-
-    paper_winner_p = 0
-    paper_winner_ai = 0
-    paper_tie = 0
-
-    for tournament in data: 
+    all_results = {
+        "rock": {"total": 0 , "player_win": 0, "ai_win": 0, "tie": 0},
+        "paper": {"total": 0 , "player_win": 0, "ai_win": 0, "tie": 0},
+        "scissors": {"total": 0 , "player_win": 0, "ai_win": 0, "tie": 0}
+    }
+    for tournament in data:
         for match in tournament:
-            if match["player_move"] == "scissors" or match['ai_move'] == "scissors":
-                scissors += 1 
-            if match["winner"] == "player" and match["player_move"] == "scissors":
-                scissor_winner_p += 1
-            elif match["winner"] == "ai" and match["ai_move"] == "scissors":
-                scissor_winner_ai += 1
-            elif match["winner"] == "none" and match["ai_move"] == "scissors" and match["player_move"] == "scissors":
-                scissor_tie += 1
+            match_winner = match["winner"]
+            for choice in all_results.keys():
+                if choice in (match["player_move"],match["ai_move"]): #what were the moves played during this match (player's,ai) and the choice checks if the rock, paper, or scissors matches one of them 
+                    all_results[choice]["total"] += 1 
 
+                    if match_winner == "player" and match["player_move"]== choice:
+                        all_results[choice]["player_win"] += 1
+                    elif match_winner == "ai" and match["ai_move"] == choice:
+                        all_results[choice]["ai_win"] += 1
+                    else:
+                        all_results[choice]["tie"]+= 1
+    return all_results
+#potentially print as a table? 
 
-    for tournament in data: 
-        for match in tournament:
-            if match["player_move"] == "rock" or match['ai_move'] == "rock":
-                rock += 1 
-            if match["winner"] == "player" and match["player_move"]== "rock":
-                rock_winner_p += 1
-            elif match["winner"] == "ai" and match["ai_move"]== "rock":
-                rock_winner_ai += 1
-            elif match["winner"] == "none" and match["ai_move"]=="rock" and match["player_move"] == "rock":
-                rock_tie += 1
-
-
-    for tournament in data: 
-        for match in tournament:
-            if match["player_move"] == "paper" or match['ai_move'] == "paper":
-                paper += 1 
-            if match["winner"] == "player" and match["player_move"]== "paper":
-                paper_winner_p += 1
-            elif match["winner"] == "ai" and match["ai_move"]== "paper":
-                paper_winner_ai += 1
-            elif match["winner"] == "none" and match["ai_move"]=="paper" and match["player_move"] == "paper":
-                paper_tie += 1
-
-    return rock, paper, scissors, rock_tie, rock_winner_ai, rock_winner_p, paper_tie, paper_winner_ai, paper_winner_p, scissor_tie, scissor_winner_ai, scissor_winner_p#
