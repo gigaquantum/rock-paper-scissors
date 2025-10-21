@@ -104,4 +104,110 @@ def longest_win_streak(data):
             current_streak_count = 0
     
     return longest_streak
+
+
+def track_player_choice(data):
+    """Tracks the player's choice throughout the tournament, returns the most common choice."""
+    player_rock = 0
+    player_scissors = 0 
+    player_paper = 0 
     
+    for tournament in data:
+        for match in tournament:
+            if match["player_move"] == "rock":
+                player_rock += 1
+            elif match["player_move"] == "scissors":
+                player_scissors += 1
+            elif match["player_move"] == "paper":
+                player_paper += 1
+    
+    most_common_player_choice = ""
+    if player_rock < player_scissors > player_paper:
+        most_common_player_choice = "scissors"
+    elif player_scissors < player_rock > player_paper:
+        most_common_player_choice = "rock"
+    else:
+        most_common_player_choice = "paper"
+
+    return most_common_player_choice
+
+def track_ai_choice(data):
+    """Tracks AI's choice throughout the tournament, returns its most common choice."""
+    ai_rock = 0
+    ai_scissors = 0 
+    ai_paper = 0 
+    
+    for tournament in data:
+        for match in tournament:
+            if match["ai_move"] == "rock":
+                ai_rock += 1
+            elif match["ai_move"] == "scissors":
+                ai_scissors += 1
+            elif match["ai_move"] == "paper":
+                ai_paper += 1
+    
+    most_common_ai_choice = ""
+    if ai_rock < ai_scissors > ai_paper:
+        most_common_ai_choice = "scissors"
+    elif ai_scissors < ai_rock > ai_paper:
+        most_common_ai_choice = "rock"
+    else:
+        most_common_ai_choice = "paper"
+
+    return most_common_ai_choice
+
+
+def head_to_head(data):
+    """Keeps track of the results based on throw type."""
+    rock = 0
+    scissors = 0
+    paper = 0
+
+    scissor_winner_p = 0
+    scissor_winner_ai = 0
+    scissor_tie = 0
+
+    rock_winner_p = 0
+    rock_winner_ai = 0
+    rock_tie = 0
+
+    paper_winner_p = 0
+    paper_winner_ai = 0
+    paper_tie = 0
+
+    for tournament in data: 
+        for match in tournament:
+            if match["player_move"] == "scissors" or match['ai_move'] == "scissors":
+                scissors += 1 
+            if match["winner"] == "player" and match["player_move"] == "scissors":
+                scissor_winner_p += 1
+            elif match["winner"] == "ai" and match["ai_move"] == "scissors":
+                scissor_winner_ai += 1
+            elif match["winner"] == "none" and match["ai_move"] == "scissors" and match["player_move"] == "scissors":
+                scissor_tie += 1
+
+
+    for tournament in data: 
+        for match in tournament:
+            if match["player_move"] == "rock" or match['ai_move'] == "rock":
+                rock += 1 
+            if match["winner"] == "player" and match["player_move"]== "rock":
+                rock_winner_p += 1
+            elif match["winner"] == "ai" and match["ai_move"]== "rock":
+                rock_winner_ai += 1
+            elif match["winner"] == "none" and match["ai_move"]=="rock" and match["player_move"] == "rock":
+                rock_tie += 1
+
+
+    for tournament in data: 
+        for match in tournament:
+            if match["player_move"] == "paper" or match['ai_move'] == "paper":
+                paper += 1 
+            if match["winner"] == "player" and match["player_move"]== "paper":
+                paper_winner_p += 1
+            elif match["winner"] == "ai" and match["ai_move"]== "paper":
+                paper_winner_ai += 1
+            elif match["winner"] == "none" and match["ai_move"]=="paper" and match["player_move"] == "paper":
+                paper_tie += 1
+
+    return rock, paper, scissors, rock_tie, rock_winner_ai, rock_winner_p, paper_tie, paper_winner_ai, paper_winner_p, scissor_tie, scissor_winner_ai, scissor_winner_p#
