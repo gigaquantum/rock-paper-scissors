@@ -1,0 +1,49 @@
+menu_art = """
+                          ÕZo¿nZZN                                         
+             ëÕNëZÕN     N¦› ›  › ›¿N     ë2¦¦››¿Õ NN¿››¦Õ ëZ¿¿oëë         
+        ÕëZn›› › › ›N  ëÕ› › › › › › Õë2› › › › ›¦ZZ2 › ›eZe›  › ¿         
+      Zë¿› ›  › › › Z ZN› › › › › › ›oÆ ›  › › n››Õe¦ › ›¦¿› › ›¦N         
+      Në  › ›¿2o ››oN e¦› ›  eÕZ › › Æë › › ››oZëNZ2› ›  › › › ›Õ          
+      ëo› › ë Ze ›››ÆZë› › ›onëZ ›  ›Në › ››NÕÕ   eZ›  › ›  › ››N          
+     Õe›› › ›  › › ›¦NN› › ››22 › › ›ÕÆ› ›  oon¦ › o¦› › › › ›  ¦Õ         
+     Ne› › › › ›  › ››Në› ›   ›  › ›ÆÆe¦ › › › › › ›2› › 2ë2› › ›¿         
+     Õe¿ ›  ››Z2› ›  › ÕZZ¿ › › ›››2  eÕ› › › › › ››¦ › ›ZÆë›› › ›N        
+      ëZ› ›  ¦Õëë› › › ›e NeÕe› ››ë   N2N› › › › ›2Æe¿›››Õ ëZ›  ¿¿›        
+      NÕ› › ››Æ ëëNëZÕ2       2ë›      ëëëëëëëëZNN          NZeÕÕÕn        
+      e2ëÕ                     ¿neëÕÕNëZ22ëëZeZN                           
+        ë      2NÆÆÆÆÆÆÆë                                   ›¦¿ooo¦›¿2Õë   
+        ¦    ›ÆÕ¦ë      NÆ ¦ÆÆ   ¦ÕÆÆÆÆZ            ÕÆÆÆÆÆÕ          2ë    
+       Õ        ZÕ     2ÆneÆëÆn   2Õ   ÆÆ ZZeee¦   2Æ    nÆe        Z      
+      Z        ¿ÆZoÕÆÆë  NÕ eÆ2  ›Æo›ÆÆÆ¿Æ2  ¦nZëe Æo   ëÆÆ        N       
+      Õ        ÆÆ      2ÆÆëëÕÆN ¿ÆÆÆÆë¦ NÆ        ÆÆÆÆÆÆÆ¦        Õ        
+      ¿       nÆe     ÆÆ    oÆÕ ¦Æë    ÕÆëÕNÕ    2ÆZëÕÆÆÆ›       Z         
+     e        ÆÆ    oÆN     ›ÆN ëÆ    ZÆ›       ›ÆN   2ÆÆÆn     ¿          
+     Z       ëÆe    ëZ       ÆÕ e2    ¿ÕÆÆÆÆÆÆo ÆÆ     ›ÆÆÆ2    Õ          
+     Õ       ÆÕ                                ›Æn       ›     N           
+     Z¦¦¿ZÆÆ¿¿¿¦¦¦›››                   ¿ ¿›   ¿¿¦         ¿¿¿2Æ       ÆÕÆÆ
+      ÆonZÆÆ      ÆÆ2   ÆÆÆ      ÆÆëZn2noÆÆo   no¦¿Õ  Õe¿¦¦¦¦¦¦¦2   Nn¦oÆÆ 
+    Õ¿¦oÆÆ      ÕnÆÆ    2oN  ÆZoZÆ No¦nÆÆ    Æ2¦¦¦¦¦oNZÕo¦¦o2¦¦¦ZÆÕ¿¦¦nNÆN 
+  No¦¦ÆN      ë2¦eÆ    Æ¿¦Æ e¦eÆÆ Õ¦¦¦ë     Æ¿¦nÆNÆ¦¦ëÆÆ¿¦ZNÆ¿¦nÆn¦¦nÆÆ    
+ ë¿¦oÆZ      Õo¦ÕÆ     Æ¦¦Æ2¦2Æ   Æ2¦¦¦¿eë No¦ZÆ   N¦¦ÆÆ¦¦N2¦¿ÕÆN¦¦¦NÕ     
+N¦¦¦ëÆÕe2ëÆ Õo¦ZÆ      ë¦¿ÆÆo¦¦¦¿ëÆ ÕÆÕ¦¦¦Æe¦2Æ    Õ¦oÆe¦¦¦¦ëÆ   Æ¿¦¦¦¦Zë  
+Z¦¦¦¦¦¦¦¦¦oN2¦oÆ       n¦oN  NÆN2¦¦e   n¦2Æn¦ëÕ   N¦¦NÆn¦o¦oÆ      ÆÆn¦¦ZÆ 
+ÆÆÆÆÆÆNN¿¦ÕÆn¦oÆ       o¦ZÆ     ë¦oÆ  ë¦nÆNo¦N   Æ¿¦¿Æ o¦Æo¦Õ       Õo¦¦NÆ 
+      Æ¿¦ëN 2¦¦¿eZZeNÆÆo¦ÕÆ   Õ¿¿ÕÆ Æ¿¦ZÆ  e¦nÆÆZ¦¦nÆ Æ¿eÆN¿oÆ     Õ¿¦¿ÆÆ  
+    Õë¦¿ÆÕ  Æo¦¦¦¦¿oNÆÆ2¦Æ ÆÕe¿NÆ  Õ¦¿Æë   Æ¿¦¦¦¦¿NÆ  ÆNÆÆ Æ2ÆÆ  ëo¦¿ÕÆ    
+  N2¦¿ëÆ     ÆÆÆÆÆÆÆ   ÕZÆ NÆÆÆ  ÆÕÆÆÆ      ÆÕZëÆÆ    ÆÆN   ÆNNÆÆÆnNÆN     
+ÆNooÆÆ                 ÆÆÆ      NÆ                            Æ ÆÆN        
+ÆÆÆÆ                                                                       
+"""
+
+def menu():
+    """Brings up the main menu for the game. Asks users for game parameters before returning those parameters."""
+    print(menu_art, "\n")
+    print("Welcome to Rock, Paper, Scissors! Please select your game options below.")
+    raw_difficulty = input("Which AI difficulty would you like to play with? Indicate your choice by typing the number next to the option.\n(1) Random AI\n(2) Counter AI\n(3) Pattern AI\n\nYour choice: ")
+    
+    
+    num_tournaments = 
+    games_
+
+if __name__ == "__main__":
+    print(menu())
