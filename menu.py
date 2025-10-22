@@ -1,3 +1,6 @@
+from typing import Any, Callable
+
+
 menu_art = """
                           ÕZo¿nZZN                                         
              ëÕNëZÕN     N¦› ›  › ›¿N     ë2¦¦››¿Õ NN¿››¦Õ ëZ¿¿oëë         
@@ -35,15 +38,52 @@ Z¦¦¦¦¦¦¦¦¦oN2¦oÆ       n¦oN  NÆN2¦¦e   n¦2Æn¦ëÕ   N¦¦NÆn�
 ÆÆÆÆ                                                                       
 """
 
+
+def get_valid_input(input_message: str, is_valid_conditional: Callable) -> Any:
+    is_valid_input = False
+    input_value = input(input_message).strip().lower()
+    while not is_valid_input:
+        if is_valid_conditional(input_value):
+            is_valid_input = True
+        else:
+            print("That's not a valid option! Please try again below.")
+            input_value = input(input_message).strip().lower()
+    return input_value
+
+
 def menu():
     """Brings up the main menu for the game. Asks users for game parameters before returning those parameters."""
     print(menu_art, "\n")
     print("Welcome to Rock, Paper, Scissors! Please select your game options below.")
-    raw_difficulty = input("Which AI difficulty would you like to play with? Indicate your choice by typing the number next to the option.\n(1) Random AI\n(2) Counter AI\n(3) Pattern AI\n\nYour choice: ")
-    
-    
-    num_tournaments = 
-    games_
+
+    raw_difficulty = get_valid_input(
+        "\nWhich AI difficulty would you like to play with? Indicate your choice by typing the number next to the option.\n(1) Random AI\n(2) Counter AI\n(3) Pattern AI\n\nYour choice: ",
+        lambda x: x in ["1", "2", "3"],
+    )
+    if raw_difficulty == "1":
+        difficulty = "random"
+    elif raw_difficulty == "2":
+        difficulty = "counter"
+    else:
+        difficulty = "pattern"
+
+    num_rounds = int(
+        get_valid_input(
+            "\nHow many rounds per tournament do you want? The options are 3, 5, and 7.\n\nYour choice: ",
+            lambda x: x in ["3", "5", "7"],
+        )
+    )
+
+    num_tournaments = int(
+        get_valid_input(
+            "\nHow many tournaments do you want to play? You must play at least 1 tournament.\n\nYour choice: ",
+            lambda x: x.isdecimal() and int(x) > 0,
+        )
+    )
+
+    return difficulty, num_rounds, num_tournaments
+
 
 if __name__ == "__main__":
-    print(menu())
+    diff, rounds, tournaments = menu()
+    print(f"Difficulty: {diff}\nNum Rounds: {rounds}\nNum Tournaments: {tournaments}")
