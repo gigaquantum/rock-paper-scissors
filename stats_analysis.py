@@ -8,40 +8,42 @@ Student C: Statistics & Analysis
 - Most common AI choice
 - Head-to-head results by throw type
 """
-
-## Game data stored as a list of tournaments, with each tournament being a list of dictionaries that contain the user choice, AI choice, and winner of the match
-
-# For example:
-#data = [
-#   [
-#       {"player_move": "rock", "ai_move": "paper", "winner": "ai"},
-#        {"player_move": "scissors", "ai_move": "paper", "winner": "player"},
-#        {"player_move": "scissors", "ai_move": "scissors", "winner": "none"},
-#    ],
-#    [
-#        {"player_move": "scissors", "ai_move": "rock", "winner": "ai"},
-#        {"player_move": "scissors", "ai_move": "paper", "winner": "player"},
-#        {"player_move": "rock", "ai_move": "scissors", "winner": "player"},
-#    ],
-#]
-
-#tournament is the [] and each match is {}
+game_data = [
+    [
+        {"player_move": "rock", "ai_move": "paper", "winner": "ai"},
+        {"player_move": "scissors", "ai_move": "paper", "winner": "player"},
+        {"player_move": "scissors", "ai_move": "scissors", "winner": "none"},
+    ],
+    [
+        {"player_move": "scissors", "ai_move": "rock", "winner": "ai"},
+        {"player_move": "scissors", "ai_move": "paper", "winner": "player"},
+        {"player_move": "rock", "ai_move": "scissors", "winner": "player"},
+    ],
+]
 
 
 def track_win_loss_tie(data):
     """Tracks the result of each match/throw for the player."""
-    win = 0
-    loss = 0 
-    tie = 0 
+
+    all_results = {
+        "rock": {"win": 0 , "loss": 0, "tie": 0},
+        "paper": {"win": 0 , "loss": 0, "tie": 0},
+        "scissors": {"win": 0 , "loss": 0, "tie": 0}
+    }
     for tournament in data:
         for match in tournament:
-            if match["winner"] == "player":
-                win += 1
-            elif match["winner"] == "ai":
-                loss += 1
-            elif match["winner"] == "none":
-                tie += 1
-    return win, loss, tie
+            choice = match["player_move"]
+            winner = match["winner"]
+            if winner == "player":
+                all_results[choice]["win"] += 1
+            elif winner == "ai":
+                all_results[choice]["loss"] += 1
+            elif winner == "none":
+                all_results[choice]["tie"] += 1
+
+    print("WINS, LOSS AND TIE BY THROW TYPE")
+    for choice in all_results.keys():
+      print(f"{'-'*40}\n{choice.upper()}\n{'-'*40}\nWins: {all_results[choice]["win"]}\nLosses: {all_results[choice]["loss"]}\nTies: {all_results[choice]["tie"]}")
 
 def collect_match_result(data):
   """This makes a list of the wins, loss, ties per tournament. This can then be used in other functions."""
@@ -54,13 +56,31 @@ def collect_match_result(data):
                 match_result.append("loss")
   return match_result
 
+def all_win_loss_tie(data):
+    """Tracks the wins, losses and ties across all tournaments."""
+    win = 0
+    loss = 0
+    tie = 0
+    for tournament in data:
+        for match in tournament:
+            if match["winner"] == "player":
+                win += 1
+            elif match["winner"] == "ai":
+                loss += 1
+            elif match["winner"] == "none":
+                tie += 1
+    return win, loss, tie
+
 #calculate win percentage
-def win_percentage(win,loss,tie):
+def win_percentage(data):
     """Tracks the percentage of wins for the user across all tournaments"""
+    win,loss,tie = all_win_loss_tie(data)
     total_match = win + loss + tie
     if total_match == 0: #no division by 0 
-        return 0 
-    return((win/total_match)*100)
+        print(f'Not enough matches have been played') 
+    else: 
+        formula = ((win/total_match)*100)
+    print(f"The players\' win percentage is: {formula}%")
 
 def current_streak(data):
     """If the last 2 matches have been wins then user is on a winning streak, if last 2 matches have been losses, user is on a losing streak."""
@@ -84,7 +104,7 @@ def current_streak(data):
     else:
         streak_type = "no streak"
     
-    return streak_count , streak_type
+    print(f'The player is currently in a {streak_type} of length: {streak_count}')
 
     #this code isn't dynamic, so each time a new match is played we need to update the match result, so should we have another function to update it as the game is played? 
 
@@ -103,7 +123,7 @@ def longest_win_streak(data):
         else:
             current_streak_count = 0
     
-    return longest_streak
+    print(f'The longest streak for the player is: {longest_streak}')
 
 
 def track_player_choice(data):
@@ -129,7 +149,7 @@ def track_player_choice(data):
     else:
         most_common_player_choice = "paper"
 
-    return most_common_player_choice
+    print(f'Most common player choice: {most_common_player_choice}')
 
 def track_ai_choice(data):
     """Tracks AI's choice throughout the tournament, returns its most common choice."""
@@ -154,66 +174,11 @@ def track_ai_choice(data):
     else:
         most_common_ai_choice = "paper"
 
-    return most_common_ai_choice
+    print(f'Most common AI choice: {most_common_ai_choice}')
 
-
-# def head_to_head(data):
-#     """Keeps track of the results based on throw type."""
-#     rock = 0
-#     scissors = 0
-#     paper = 0
-
-#     scissor_winner_p = 0
-#     scissor_winner_ai = 0
-#     scissor_tie = 0
-
-#     rock_winner_p = 0
-#     rock_winner_ai = 0
-#     rock_tie = 0
-
-#     paper_winner_p = 0
-#     paper_winner_ai = 0
-#     paper_tie = 0
-
-#     for tournament in data: 
-#         for match in tournament:
-#             if match["player_move"] == "scissors" or match['ai_move'] == "scissors":
-#                 scissors += 1 
-#             if match["winner"] == "player" and match["player_move"] == "scissors":
-#                 scissor_winner_p += 1
-#             elif match["winner"] == "ai" and match["ai_move"] == "scissors":
-#                 scissor_winner_ai += 1
-#             elif match["winner"] == "none" and match["ai_move"] == "scissors" and match["player_move"] == "scissors":
-#                 scissor_tie += 1
-
-
-#     for tournament in data: 
-#         for match in tournament:
-#             if match["player_move"] == "rock" or match['ai_move'] == "rock":
-#                 rock += 1 
-#             if match["winner"] == "player" and match["player_move"]== "rock":
-#                 rock_winner_p += 1
-#             elif match["winner"] == "ai" and match["ai_move"]== "rock":
-#                 rock_winner_ai += 1
-#             elif match["winner"] == "none" and match["ai_move"]=="rock" and match["player_move"] == "rock":
-#                 rock_tie += 1
-
-
-#     for tournament in data: 
-#         for match in tournament:
-#             if match["player_move"] == "paper" or match['ai_move'] == "paper":
-#                 paper += 1 
-#             if match["winner"] == "player" and match["player_move"]== "paper":
-#                 paper_winner_p += 1
-#             elif match["winner"] == "ai" and match["ai_move"]== "paper":
-#                 paper_winner_ai += 1
-#             elif match["winner"] == "none" and match["ai_move"]=="paper" and match["player_move"] == "paper":
-#                 paper_tie += 1
-
-#     return rock, paper, scissors, rock_tie, rock_winner_ai, rock_winner_p, paper_tie, paper_winner_ai, paper_winner_p, scissor_tie, scissor_winner_ai, scissor_winner_p
 
 def head_to_head(data):
-    """Tracks the results based on throw type over all tournaments. Returns a dictionary with the results."""
+    """Tracks the results based on throw type over all tournaments. Prints the statistic of each throw and returns a dictionary of all_results."""
     all_results = {
         "rock": {"total": 0 , "player_win": 0, "ai_win": 0, "tie": 0},
         "paper": {"total": 0 , "player_win": 0, "ai_win": 0, "tie": 0},
@@ -232,6 +197,33 @@ def head_to_head(data):
                         all_results[choice]["ai_win"] += 1
                     else:
                         all_results[choice]["tie"]+= 1
-    return all_results
-#potentially print as a table? 
+    
+    print("HEAD-TO-HEAD STATS BY THROW TYPE")
+    for choice in all_results.keys():
+      print(f"{'-'*40}\n{choice.upper()}\n{'-'*40}\nTotal Played: {all_results[choice]["total"]}\nPlayer Won: {all_results[choice]["player_win"]}\nAI Won: {all_results[choice]["ai_win"]}\nTies: {all_results[choice]["tie"]}")
+
+
+    
+def statistics_report(game_data):
+    """Generates the final statistics report for the game. It calls upon the other functions and puts it all together."""
+    print(f'{"-"*15}STATISTICS REPORT{"-"*15}\n')
+    track_win_loss_tie(game_data) #player's win/loss/tie by throw type
+    print("\n\n"+"-"*40)
+    win_percentage(game_data) #the percentage that the player wins over the number of matches 
+    print("-"*40+"\n")
+    current_streak(game_data)
+    print("\n"+"-"*40)
+    longest_win_streak(game_data)
+    print("-"*40+"\n")
+    track_player_choice(game_data)
+    print("\n"+"-"*40)
+    track_ai_choice(game_data)
+    print("-"*40+"\n\n")
+    head_to_head(game_data)
+
+
+    
+
+
+
 
