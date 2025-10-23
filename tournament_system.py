@@ -99,7 +99,7 @@ for t in range(int(num_tournaments)):
                 "winner": winner
             })
 
-        print(f"📊 Score — You: {player_score}, Computer: {computer_score}")
+        print(f"Score — You: {player_score}, Computer: {computer_score}")
 
 
         all_match_data.append(tournament_data)
