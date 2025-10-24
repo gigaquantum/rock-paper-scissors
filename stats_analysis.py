@@ -221,7 +221,7 @@ def statisticsReport(gameData):
     print("-"*40+"\n\n")
     headToHead(gameData)
 
-statisticsReport(gameData)
+
 
 
     
