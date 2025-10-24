@@ -7,10 +7,9 @@ Student B: Tournament System
 - Ability to play multiple series
 """
 
-import os
 import time
 
-from typing import Literal
+from typing import Callable, Literal
 
 from aiLogic import getRandomAiMove, getCounterAiMove, getPatternAiMove
 from statsAnalysis import statisticsReport
@@ -19,15 +18,6 @@ from statsAnalysis import statisticsReport
 def _waitForUser():
     time.sleep(2)
     input("\nPress any key and hit enter to continue...")
-
-
-def _clearConsole():
-    # For Windows
-    if os.name == "nt":
-        os.system("cls")
-    # For macOS and Linux
-    else:
-        os.system("clear")
 
 
 def _determineWinner(playerMove: str, aiMove: str) -> str:
@@ -48,8 +38,9 @@ def playSeries(
     numTournaments: int,
     roundsPerTournament: int,
     difficulty: Literal["random", "counter", "pattern"],
+    clearOutput: Callable,
 ) -> bool:
-    _clearConsole()
+    clearOutput()
     print(f"You are playing {numTournaments} tournaments.")
     print(f"With each tournaments consisting of {roundsPerTournament} rounds.")
     print(f"Your difficulty is {difficulty}.")
@@ -59,15 +50,15 @@ def playSeries(
     requiredWins = (roundsPerTournament // 2) + 1
 
     for t in range(int(numTournaments)):
-        _clearConsole()
-        print(f"\n Tournament {t + 1} — Best of {roundsPerTournament}")
+        clearOutput()
+        print(f"\nTournament {t + 1} — Best of {roundsPerTournament}")
         playerScore = 0
         aiScore = 0
         allMatchData.append([])
         roundNumber = 0
         while playerScore < requiredWins and aiScore < requiredWins:
             roundNumber += 1
-            print(f"\n Round {roundNumber}")
+            print(f"\nRound {roundNumber}")
             playerMove = str(input("Choose rock, paper, or scissors: ")).lower()
             while playerMove not in ["rock", "paper", "scissors"]:
                 print("Invalid move. Try again.")
@@ -80,7 +71,7 @@ def playSeries(
                 aiMove = getPatternAiMove(allMatchData)
             else:
                 aiMove = getRandomAiMove()
-            print(f" AI chose: {aiMove}")
+            print(f"AI chose: {aiMove}")
 
             winner = _determineWinner(playerMove, aiMove)
             if winner == "player":
@@ -95,24 +86,23 @@ def playSeries(
             allMatchData[-1].append(
                 {"playerMove": playerMove, "aiMove": aiMove, "winner": winner}
             )
-            _waitForUser()
 
-        _clearConsole()
-        print(f"\n Final Tournament Score — You: {playerScore}, AI: {aiScore}")
+        print(f"\nFinal Tournament Score — You: {playerScore}, AI: {aiScore}")
         if playerScore > aiScore:
             print("You won the tournament!")
         else:
             print("AI won the tournament!")
         _waitForUser()
-    _clearConsole()
+
+    clearOutput()
     print("Series complete!\n")
 
     statisticsReport(allMatchData)
     _waitForUser()
-    _clearConsole()
+    clearOutput()
     playAgain = input("\nWant to play again? (yes/no): ").lower()
     if playAgain == "yes":
-        _clearConsole()
+        clearOutput()
         return True
     else:
         print("Thanks for playing! See you next time.")
