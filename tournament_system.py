@@ -6,122 +6,114 @@ Student B: Tournament System
 - Series winner determination
 - Ability to play multiple series
 """
-from ai_logic import get_random_ai_move, get_counter_ai_move, get_pattern_ai_move
+from aiLogic import getRandomAiMove, getCounterAiMove, getPatternAiMove
 
 # play_series(5, 3, "random")
-def play_series(num_tournaments, rounds_per_tournament, difficulty):
-        print(f"You are playing {num_tournaments} tournaments")
-        print(f"With each tournaments consisting of {rounds_per_tournament} rounds")
+def playSeries(numTournaments, roundsPerTournament, difficulty):
+        print(f"You are playing {numTournaments} tournaments")
+        print(f"With each tournaments consisting of {roundsPerTournament} rounds")
         print(f"Your difficulty is {difficulty}")
         
 
-def determine_winner(player_move: str, ai_move: str) -> str:
-    if player_move == ai_move:
+def determineWinner(playerMove: str, aiMove: str) -> str:
+    if playerMove == aiMove:
         return "tie"
-    elif (player_move == "rock" and ai_move == "scissors") or \
-         (player_move == "paper" and ai_move == "rock") or \
-         (player_move == "scissors" and ai_move == "paper"):
+    elif (playerMove == "rock" and aiMove == "scissors") or \
+         (playerMove == "paper" and aiMove == "rock") or \
+         (playerMove == "scissors" and aiMove == "paper"):
         return "player"
     else:
         return "computer"     
 
     # Ask for the number of rounds
-round_input = input("Choose format: best-of-3, best-of-5, or best-of-7: ")
+roundInput = input("Choose format: best-of-3, best-of-5, or best-of-7: ")
 
-if round_input == "3":
-        rounds_per_tournament = 3
-elif round_input == "5":
-        rounds_per_tournament = 5
-elif round_input == "7":
-        rounds_per_tournament = 7
+if roundInput == "3":
+        roundsPerTournament = 3
+elif roundInput == "5":
+        roundsPerTournament = 5
+elif roundInput == "7":
+        roundsPerTournament = 7
 else:
         print("Invalid format. Defaulting to best-of-3.")
-        rounds_per_tournament = 3
+        roundsPerTournament = 3
 
-difficulty_input = input("Choose AI difficulty: random, counter, or pattern: ").lower()
+difficultyInput = input("Choose AI difficulty: random, counter, or pattern: ").lower()
 
-if difficulty_input in ["random", "counter", "pattern"]:
-        difficulty = difficulty_input
+if difficultyInput in ["random", "counter", "pattern"]:
+        difficulty = difficultyInput
 else:
         print("Invalid difficulty. Defaulting to random.")
         difficulty = "random"
 
-all_match_data = []
-required_wins = (rounds_per_tournament // 2) + 1
+allMatchData = []
+requiredWins = (roundsPerTournament // 2) + 1
 
-num_tournaments = input("How many tournaments would you like to play? ")
+numTournaments = input("How many tournaments would you like to play? ")
 
-for t in range(int(num_tournaments)):
+for t in range(int(numTournaments)):
     
-        print(f"\n Tournament {t + 1} — Best of {rounds_per_tournament}")
-        player_score = 0
-        computer_score = 0
-        tournament_data = []
+        print(f"\n Tournament {t + 1} — Best of {roundsPerTournament}")
+        playerScore = 0
+        computerScore = 0
+        tournamentData= []
 
-        round_number = 1
-        while player_score < required_wins and computer_score < required_wins:
-            print(f"\n Round {round_number}")
-            player_move = input("Choose rock, paper, or scissors: ").lower()=
-            if player_move not in ["rock", "paper", "scissors"]:
+        roundNumber = 1
+        while playerScore < requiredWins and computerScore < requiredWins:
+            print(f"\n Round {roundNumber}")
+            playerMove = str(input("Choose rock, paper, or scissors: ")).lower()
+            if playerMove not in ["rock", "paper", "scissors"]:
                 print("Invalid move. Try again.")
                 continue
             
             # All the Ai's difficulty
             if difficulty == "random":
-                ai_move = get_random_ai_move()
+                aiMove = getRandomAiMove()
             elif difficulty == "counter":
-                ai_move = get_counter_ai_move(all_match_data)
+                aiMove = getCounterAiMove(allMatchData)
             elif difficulty == "pattern":
-                ai_move = get_pattern_ai_move(all_match_data)
+                aiMove = getPatternAiMove(allMatchData)
             else:
-                ai_move = get_random_ai_move()
+                aiMove = getRandomAiMove()
 
-            print(f" AI chose: {ai_move}")
+            print(f" AI chose: {aiMove}")
             
 
             
-            winner = determine_winner(player_move, ai_move)
+            winner = determineWinner(playerMove, aiMove)
 
             if winner == "player":
-                    player_score += 1
+                    playerScore += 1
                     print("You win this round!")
             elif winner == "computer":
-                    computer_score += 1
+                    computerScore += 1
                     print("Computer wins this round!")
             else:
                     print("It's a tie!")
 
-            round_number += 1
+            roundNumber += 1
 
-        tournament_data.append({
-                "player_move": player_move,
-                "ai_move": ai_move,
+        tournamentData.append({
+                "player_move": playerMove,
+                "ai_move": aiMove,
                 "winner": winner
             })
 
-        print(f"Score — You: {player_score}, Computer: {computer_score}")
+        print(f"Score — You: {playerScore}, Computer: {computerScore}")
 
 
-        all_match_data.append(tournament_data)
+        allMatchData.append(tournamentData)
 
-        print(f"\n Final Tournament Score — You: {player_score}, Computer: {computer_score}")
-        if player_score > computer_score:
+        print(f"\n Final Tournament Score — You: {playerScore}, Computer: {computerScore}")
+        if playerScore > computerScore:
             print("You won the tournament!")
         else:
             print("Computer won the tournament!")
 
 print("\n Series complete!")
     
-play_again = input("\nWant to play again? (yes/no): ").lower()
-if play_again == "yes":
-        play_series(num_tournaments, rounds_per_tournament, difficulty)
+playAgain = input("\nWant to play again? (yes/no): ").lower()
+if playAgain == "yes":
+        playSeries(numTournaments, roundsPerTournament, difficulty)
 else:
         print(" Thanks for playing! See you next time.")
-
-
-    
-
-
-
- 
-        
