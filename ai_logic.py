@@ -9,21 +9,21 @@ Student A: Core Game Logic & AI
 
 import random
 
-MOVE_CHOICES = ["rock", "paper", "scissors"]
+moveChoices = ["rock", "paper", "scissors"]
 
 
-def _flatten_match_data(move_data: list[list[dict]]) -> list[dict]:
+def _flattenMatchData(moveData: list[list[dict]]) -> list[dict]:
     """Flattens the match data to prepare it for analysis."""
 
-    return [match_dict for tournament in move_data for match_dict in tournament]
+    return [matchDict for tournament in moveData for matchDict in tournament]
 
 
-def get_random_ai_move() -> str:
+def getRandomAiMove() -> str:
     """Chooses a random move."""
-    return MOVE_CHOICES[random.randint(0, 2)]
+    return moveChoices[random.randint(0, 2)]
 
 
-def _get_counter_to_move(move: str) -> str:
+def _getCounterToMove(move: str) -> str:
     if move == "rock":
         return "paper"
     if move == "paper":
@@ -33,98 +33,98 @@ def _get_counter_to_move(move: str) -> str:
     raise ValueError(f"'{move}' is not a valid move.")
 
 
-def _get_top_move(rock_count: int, paper_count: int, scissors_count: int) -> str:
+def _getTopMove(rockCount: int, paperCount: int, scissorsCount: int) -> str:
     """Gets the top move based on the provided counts. If there's a tie, randomly chooses from the tied top moves."""
 
-    top_moves = []
-    if rock_count >= paper_count and rock_count >= scissors_count:
-        top_moves.append("rock")
-    if paper_count >= rock_count and paper_count >= scissors_count:
-        top_moves.append("paper")
-    if scissors_count >= rock_count and scissors_count >= paper_count:
-        top_moves.append("scissors")
+    topMoves = []
+    if rockCount >= paperCount and rockCount >= scissorsCount:
+        topMoves.append("rock")
+    if paperCount >= rockCount and paperCount >= scissorsCount:
+        topMoves.append("paper")
+    if scissorsCount >= rockCount and scissorsCount >= paperCount:
+        topMoves.append("scissors")
 
     # this selects a random move from the top moves when there's a tie
-    return top_moves[random.randint(0, len(top_moves) - 1)]
+    return topMoves[random.randint(0, len(topMoves) - 1)]
 
 
-def get_counter_ai_move(move_data: list[list[dict]]) -> str:
+def getCounterAiMove(moveData: list[list[dict]]) -> str:
     """Chooses the move countering the player's most used move. If multiple moves are tied for being the most used, one of the tied moves will be randomly selected to be countered."""
 
-    flattened_data = _flatten_match_data(move_data)
+    flattenedData = _flattenMatchData(moveData)
 
-    rock_count = 0
-    paper_count = 0
-    scissors_count = 0
-    for round in flattened_data:
-        if round["player_move"] == "rock":
-            rock_count += 1
-        elif round["player_move"] == "paper":
-            paper_count += 1
+    rockCount = 0
+    paperCount = 0
+    scissorsCount = 0
+    for round in flattenedData:
+        if round["playerMove"] == "rock":
+            rockCount += 1
+        elif round["playerMove"] == "paper":
+            paperCount += 1
         else:
-            scissors_count += 1
+            scissorsCount += 1
 
-    move_to_counter = _get_top_move(rock_count, paper_count, scissors_count)
-    return _get_counter_to_move(move_to_counter)
+    moveToCounter = _getTopMove(rockCount, paperCount, scissorsCount)
+    return _getCounterToMove(moveToCounter)
 
 
-def get_pattern_ai_move(move_data: list[list[dict]], context_length: int = 3) -> str:
+def getPatternAiMove(moveData: list[list[dict]], contextLength: int = 3) -> str:
     """Predicts the player's next move based on the player's previous moves, up to the context_length number of moves. If there's a tie, select randomly from the top predictions. If there's no data, selects a random move. If there's only one previous round, selects the move that beats the user's first move."""
 
-    flattened_data = _flatten_match_data(move_data)
-    if len(flattened_data) == 0:
-        return get_random_ai_move()
-    if len(flattened_data) == 1:
-        return _get_counter_to_move(flattened_data[0]["player_move"])
+    flattenedData = _flattenMatchData(moveData)
+    if len(flattenedData) == 0:
+        return getRandomAiMove()
+    if len(flattenedData) == 1:
+        return _getCounterToMove(flattenedData[0]["playerMove"])
 
-    num_dimensions = min(context_length, len(flattened_data) - 1)
+    numDimensions = min(contextLength, len(flattenedData) - 1)
 
-    move_counts = {move: 0 for move in MOVE_CHOICES}
-    for _ in range(num_dimensions):
-        higher_dimension_move_counts = {move: move_counts for move in MOVE_CHOICES}
-        move_counts = higher_dimension_move_counts
+    moveCounts = {move: 0 for move in moveChoices}
+    for _ in range(numDimensions):
+        higherDimensionMoveCounts = {move: moveCounts for move in moveChoices}
+        moveCounts = higherDimensionMoveCounts
 
-    for i in range(len(flattened_data) - num_dimensions):
-        window = flattened_data[i : i + num_dimensions + 1]
-        move_order = []
-        for move_dict in window:
-            move_order.append(move_dict["player_move"])
-        selected_combo = move_counts
-        for move in move_order[:-1]:
-            next_level = selected_combo[move]
-            selected_combo = next_level
-        selected_combo[move_order[-1]] += 1
+    for i in range(len(flattenedData) - numDimensions):
+        window = flattenedData[i : i + numDimensions + 1]
+        moveOrder = []
+        for moveDict in window:
+            moveOrder.append(moveDict["playerMove"])
+        selectedCombo = moveCounts
+        for move in moveOrder[:-1]:
+            nextLevel = selectedCombo[move]
+            selectedCombo = nextLevel
+        selectedCombo[moveOrder[-1]] += 1
 
-    move_order_context = []
-    for move_dict in flattened_data[-num_dimensions:]:
-        move_order_context.append(move_dict["player_move"])
-    current_context_data = move_counts
-    for move in move_order_context:
-        next_level = current_context_data[move]
-        current_context_data = next_level
+    moveOrderContext = []
+    for moveDict in flattenedData[-numDimensions:]:
+        moveOrderContext.append(moveDict["playerMove"])
+    currentContextData = moveCounts
+    for move in moveOrderContext:
+        nextLevel = currentContextData[move]
+        currentContextData = nextLevel
 
-    move_to_counter = _get_top_move(
-        current_context_data["rock"],
-        current_context_data["paper"],
-        current_context_data["scissors"],
+    moveToCounter = _getTopMove(
+        currentContextData["rock"],
+        currentContextData["paper"],
+        currentContextData["scissors"],
     )
-    return _get_counter_to_move(move_to_counter)
+    return _getCounterToMove(moveToCounter)
 
 
 if __name__ == "__main__":
-    test_data = [
+    testData = [
         [
-            {"player_move": "rock", "ai_move": "paper", "winner": "ai"},
-            {"player_move": "scissors", "ai_move": "paper", "winner": "player"},
-            {"player_move": "scissors", "ai_move": "scissors", "winner": "none"},
+            {"playerMove": "rock", "aiMove": "paper", "winner": "ai"},
+            {"playerMove": "scissors", "aiMove": "paper", "winner": "player"},
+            {"playerMove": "scissors", "aiMove": "scissors", "winner": "none"},
         ],
         [
-            {"player_move": "scissors", "ai_move": "rock", "winner": "ai"},
-            {"player_move": "scissors", "ai_move": "paper", "winner": "player"},
-            {"player_move": "rock", "ai_move": "scissors", "winner": "player"},
+            {"playerMove": "scissors", "aiMove": "rock", "winner": "ai"},
+            {"playerMove": "scissors", "aiMove": "paper", "winner": "player"},
+            {"playerMove": "rock", "aiMove": "scissors", "winner": "player"},
         ],
     ]
 
-    print("Random AI Move:", get_random_ai_move())
-    print("Counter AI Move:", get_counter_ai_move(test_data))
-    print("Counter AI Move:", get_pattern_ai_move(test_data))
+    print("Random AI Move:", getRandomAiMove())
+    print("Counter AI Move:", getCounterAiMove(testData))
+    print("Counter AI Move:", getPatternAiMove(testData))
