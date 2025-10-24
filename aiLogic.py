@@ -24,6 +24,7 @@ def getRandomAiMove() -> str:
 
 
 def _getCounterToMove(move: str) -> str:
+    """Returns the rock-paper-scissors move that beats the given move."""
     if move == "rock":
         return "paper"
     if move == "paper":

@@ -40,6 +40,7 @@ Z¦¦¦¦¦¦¦¦¦oN2¦oÆ       n¦oN  NÆN2¦¦e   n¦2Æn¦ëÕ   N¦¦NÆn�
 
 
 def _getValidInput(inputMessage: str, isValidConditional: Callable) -> Any:
+    """Gets an input from the user based on the given input message. Checks if it's valid according to the provided conditional; if it's valid, return the value, if it's not valid, ask the user to reenter the input."""
     isValidInput = False
     inputValue = input(inputMessage).strip().lower()
     while not isValidInput:
