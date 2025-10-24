@@ -223,16 +223,12 @@ def statisticsReport(gameData):
     print(f"{'-' * 15}STATISTICS REPORT{'-' * 15}\n")
     _trackWinLossTie(gameData)  # player's win/loss/tie by throw type
     print("\n\n" + "-" * 40)
-    _winPercentage(
-        gameData
-    )  # the percentage that the player wins over the number of matches
-    print("-" * 40 + "\n")
-    currentStreak(gameData)
-    print("\n" + "-" * 40)
+    _winPercentage(gameData)  # the percentage that the player wins over the number of matches
+    print("-" * 40)
     _longestWinStreak(gameData)
-    print("-" * 40 + "\n")
+    print("-" * 40)
     _trackPlayerChoice(gameData)
-    print("\n" + "-" * 40)
+    print("-" * 40)
     _trackAiChoice(gameData)
     print("-" * 40 + "\n\n")
     _headToHead(gameData)
