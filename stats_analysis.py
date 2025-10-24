@@ -8,7 +8,7 @@ Student C: Statistics & Analysis
 - Most common AI choice
 - Head-to-head results by throw type
 """
-game_data = [
+gameData = [
     [
         {"player_move": "rock", "ai_move": "paper", "winner": "ai"},
         {"player_move": "scissors", "ai_move": "paper", "winner": "player"},
@@ -22,10 +22,10 @@ game_data = [
 ]
 
 
-def track_win_loss_tie(data):
+def trackWinLossTie(data):
     """Tracks the result of each match/throw for the player."""
 
-    all_results = {
+    allResults = {
         "rock": {"win": 0 , "loss": 0, "tie": 0},
         "paper": {"win": 0 , "loss": 0, "tie": 0},
         "scissors": {"win": 0 , "loss": 0, "tie": 0}
@@ -35,28 +35,28 @@ def track_win_loss_tie(data):
             choice = match["player_move"]
             winner = match["winner"]
             if winner == "player":
-                all_results[choice]["win"] += 1
+                allResults[choice]["win"] += 1
             elif winner == "ai":
-                all_results[choice]["loss"] += 1
+                allResults[choice]["loss"] += 1
             elif winner == "none":
-                all_results[choice]["tie"] += 1
+                allResults[choice]["tie"] += 1
 
     print("WINS, LOSS AND TIE BY THROW TYPE")
-    for choice in all_results.keys():
-      print(f"{'-'*40}\n{choice.upper()}\n{'-'*40}\nWins: {all_results[choice]["win"]}\nLosses: {all_results[choice]["loss"]}\nTies: {all_results[choice]["tie"]}")
+    for choice in allResults.keys():
+      print(f"{'-'*40}\n{choice.upper()}\n{'-'*40}\nWins: {allResults[choice]["win"]}\nLosses: {allResults[choice]["loss"]}\nTies: {allResults[choice]["tie"]}")
 
-def collect_match_result(data):
+def collectMatchResult(data):
   """This makes a list of the wins, loss, ties per tournament. This can then be used in other functions."""
-  match_result = []
+  matchResult = []
   for tournament in data: #collect my match results in order of being played
         for match in tournament:
             if match["winner"] == "player":
-                match_result.append("win")
+                matchResult.append("win")
             elif match["winner"] == "ai":
-                match_result.append("loss")
-  return match_result
+                matchResult.append("loss")
+  return matchResult
 
-def all_win_loss_tie(data):
+def allWinLossTie(data):
     """Tracks the wins, losses and ties across all tournaments."""
     win = 0
     loss = 0
@@ -72,154 +72,156 @@ def all_win_loss_tie(data):
     return win, loss, tie
 
 #calculate win percentage
-def win_percentage(data):
+def winPercentage(data):
     """Tracks the percentage of wins for the user across all tournaments"""
-    win,loss,tie = all_win_loss_tie(data)
-    total_match = win + loss + tie
-    if total_match == 0: #no division by 0 
+    win,loss,tie = allWinLossTie(data)
+    totalMatch = win + loss + tie
+    if totalMatch == 0: #no division by 0 
         print(f'Not enough matches have been played') 
     else: 
-        formula = ((win/total_match)*100)
+        formula = ((win/totalMatch)*100)
     print(f"The players\' win percentage is: {formula}%")
 
-def current_streak(data):
+def currentStreak(data):
     """If the last 2 matches have been wins then user is on a winning streak, if last 2 matches have been losses, user is on a losing streak."""
-    match_result = collect_match_result(data) #this calls my function above that stores all my match results 
-    if len(match_result) < 2:
+    matchResult = collectMatchResult(data) #this calls my function above that stores all my match results 
+    if len(matchResult) < 2:
         return "No streak yet, not enough matches have been played"
     
-    last_two = match_result[-2:] #compares only the last 2 results from the tournament
-    streak_count = 0 
+    lastTwo = matchResult[-2:] #compares only the last 2 results from the tournament
+    streakCount = 0 
 
 
-    if last_two[0] == last_two[1] and last_two[0] != "tie": #if the last two are the same then my streak count increases, if there is a tie or the last two dont match that breaks the streak
-        streak_count += 1
+    if lastTwo[0] == lastTwo[1] and lastTwo[0] != "tie": #if the last two are the same then my streak count increases, if there is a tie or the last two dont match that breaks the streak
+        streakCount += 1
     else:
-        streak_count = 0 
+        streakCount = 0 
 
-    if last_two == ["win","win"]: 
-        streak_type = "winning streak"
-    elif last_two == ["loss","loss"]:
-        streak_type = "losing streak"
+    if lastTwo == ["win","win"]: 
+        streakType = "winning streak"
+    elif lastTwo == ["loss","loss"]:
+        streakType = "losing streak"
     else:
-        streak_type = "no streak"
+        streakType = "no streak"
     
-    print(f'The player is currently in a {streak_type} of length: {streak_count}')
+    print(f'The player is currently in a {streakType} of length: {streakCount}')
 
     #this code isn't dynamic, so each time a new match is played we need to update the match result, so should we have another function to update it as the game is played? 
 
-def longest_win_streak(data):
+def longestWinStreak(data):
     """Takes a look at each tournament and determines what the longest streak in that tournament was."""
-    match_result = collect_match_result(data)
+    matchResult = collectMatchResult(data)
 
-    longest_streak = 0 
-    current_streak_count = 0
+    longestStreak = 0 
+    currentStreakCount = 0
 
-    for r in match_result:
+    for r in matchResult:
         if r == "win":
-            current_streak_count += 1
-            if current_streak_count > longest_streak:
-                longest_streak = current_streak_count
+            currentStreakCount += 1
+            if currentStreakCount > longestStreak:
+                longestStreak = currentStreakCount
         else:
-            current_streak_count = 0
+            currentStreakCount = 0
     
-    print(f'The longest streak for the player is: {longest_streak}')
+    print(f'The longest streak for the player is: {longestStreak}')
 
 
-def track_player_choice(data):
+def trackPlayerChoice(data):
     """Tracks the player's choice throughout the tournament, returns the most common choice."""
-    player_rock = 0
-    player_scissors = 0 
-    player_paper = 0 
+    playerRock = 0
+    playerScissors = 0 
+    playerPaper = 0 
     
     for tournament in data:
         for match in tournament:
             if match["player_move"] == "rock":
-                player_rock += 1
+                playerRock += 1
             elif match["player_move"] == "scissors":
-                player_scissors += 1
+                playerScissors += 1
             elif match["player_move"] == "paper":
-                player_paper += 1
+                playerPaper += 1
     
-    most_common_player_choice = ""
-    if player_rock < player_scissors > player_paper:
-        most_common_player_choice = "scissors"
-    elif player_scissors < player_rock > player_paper:
-        most_common_player_choice = "rock"
+    mostCommonPlayerChoice = ""
+    if playerRock < playerScissors > playerPaper:
+        mostCommonPlayerChoice = "scissors"
+    elif playerScissors < playerRock > playerPaper:
+        mostCommonPlayerChoice = "rock"
     else:
-        most_common_player_choice = "paper"
+        mostCommonPlayerChoice = "paper"
 
-    print(f'Most common player choice: {most_common_player_choice}')
+    print(f'Most common player choice: {mostCommonPlayerChoice}')
 
-def track_ai_choice(data):
+def trackAiChoice(data):
     """Tracks AI's choice throughout the tournament, returns its most common choice."""
-    ai_rock = 0
-    ai_scissors = 0 
-    ai_paper = 0 
+    aiRock = 0
+    aiScissors = 0 
+    aiPaper = 0 
     
     for tournament in data:
         for match in tournament:
             if match["ai_move"] == "rock":
-                ai_rock += 1
+                aiRock += 1
             elif match["ai_move"] == "scissors":
-                ai_scissors += 1
+                aiScissors += 1
             elif match["ai_move"] == "paper":
-                ai_paper += 1
+                aiPaper += 1
     
-    most_common_ai_choice = ""
-    if ai_rock < ai_scissors > ai_paper:
-        most_common_ai_choice = "scissors"
-    elif ai_scissors < ai_rock > ai_paper:
-        most_common_ai_choice = "rock"
+    mostCommonAiChoice = ""
+    if aiRock < aiScissors > aiPaper:
+        mostCommonAiChoice = "scissors"
+    elif aiScissors < aiRock > aiPaper:
+        mostCommonAiChoice = "rock"
     else:
-        most_common_ai_choice = "paper"
+        mostCommonAiChoice = "paper"
 
-    print(f'Most common AI choice: {most_common_ai_choice}')
+    print(f'Most common AI choice: {mostCommonAiChoice}')
 
 
-def head_to_head(data):
+def headToHead(data):
     """Tracks the results based on throw type over all tournaments. Prints the statistic of each throw and returns a dictionary of all_results."""
-    all_results = {
+    allResults = {
         "rock": {"total": 0 , "player_win": 0, "ai_win": 0, "tie": 0},
         "paper": {"total": 0 , "player_win": 0, "ai_win": 0, "tie": 0},
         "scissors": {"total": 0 , "player_win": 0, "ai_win": 0, "tie": 0}
     }
     for tournament in data:
         for match in tournament:
-            match_winner = match["winner"]
-            for choice in all_results.keys():
+            matchWinner = match["winner"]
+            for choice in allResults.keys():
                 if choice in (match["player_move"],match["ai_move"]): #what were the moves played during this match (player's,ai) and the choice checks if the rock, paper, or scissors matches one of them 
-                    all_results[choice]["total"] += 1 
+                    allResults[choice]["total"] += 1 
 
-                    if match_winner == "player" and match["player_move"]== choice:
-                        all_results[choice]["player_win"] += 1
-                    elif match_winner == "ai" and match["ai_move"] == choice:
-                        all_results[choice]["ai_win"] += 1
+                    if matchWinner == "player" and match["player_move"]== choice:
+                        allResults[choice]["player_win"] += 1
+                    elif matchWinner == "ai" and match["ai_move"] == choice:
+                        allResults[choice]["ai_win"] += 1
                     else:
-                        all_results[choice]["tie"]+= 1
+                        allResults[choice]["tie"]+= 1
     
     print("HEAD-TO-HEAD STATS BY THROW TYPE")
-    for choice in all_results.keys():
-      print(f"{'-'*40}\n{choice.upper()}\n{'-'*40}\nTotal Played: {all_results[choice]["total"]}\nPlayer Won: {all_results[choice]["player_win"]}\nAI Won: {all_results[choice]["ai_win"]}\nTies: {all_results[choice]["tie"]}")
+    for choice in allResults.keys():
+      print(f"{'-'*40}\n{choice.upper()}\n{'-'*40}\nTotal Played: {allResults[choice]["total"]}\nPlayer Won: {allResults[choice]["player_win"]}\nAI Won: {allResults[choice]["ai_win"]}\nTies: {allResults[choice]["tie"]}")
 
 
     
-def statistics_report(game_data):
+def statisticsReport(gameData):
     """Generates the final statistics report for the game. It calls upon the other functions and puts it all together."""
     print(f'{"-"*15}STATISTICS REPORT{"-"*15}\n')
-    track_win_loss_tie(game_data) #player's win/loss/tie by throw type
+    trackWinLossTie(gameData) #player's win/loss/tie by throw type
     print("\n\n"+"-"*40)
-    win_percentage(game_data) #the percentage that the player wins over the number of matches 
+    winPercentage(gameData) #the percentage that the player wins over the number of matches 
     print("-"*40+"\n")
-    current_streak(game_data)
+    currentStreak(gameData)
     print("\n"+"-"*40)
-    longest_win_streak(game_data)
+    longestWinStreak(gameData)
     print("-"*40+"\n")
-    track_player_choice(game_data)
+    trackPlayerChoice(gameData)
     print("\n"+"-"*40)
-    track_ai_choice(game_data)
+    trackAiChoice(gameData)
     print("-"*40+"\n\n")
-    head_to_head(game_data)
+    headToHead(gameData)
+
+statisticsReport(gameData)
 
 
     
