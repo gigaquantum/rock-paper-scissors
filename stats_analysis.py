@@ -8,19 +8,18 @@ Student C: Statistics & Analysis
 - Most common AI choice
 - Head-to-head results by throw type
 """
-gameData = [
-    [
-        {"player_move": "rock", "ai_move": "paper", "winner": "ai"},
-        {"player_move": "scissors", "ai_move": "paper", "winner": "player"},
-        {"player_move": "scissors", "ai_move": "scissors", "winner": "none"},
-    ],
-    [
-        {"player_move": "scissors", "ai_move": "rock", "winner": "ai"},
-        {"player_move": "scissors", "ai_move": "paper", "winner": "player"},
-        {"player_move": "rock", "ai_move": "scissors", "winner": "player"},
-    ],
-]
-
+data = [
+ [
+         {"playerMove": "rock", "aiMove": "paper", "winner": "ai"},
+         {"playerMove": "scissors", "aiMove": "paper", "winner": "player"},
+         {"playerMove": "scissors", "aiMove": "scissors", "winner": "none"},
+     ],
+     [
+         {"playerMove": "scissors", "aiMove": "rock", "winner": "ai"},
+         {"playerMove": "scissors", "aiMove": "paper", "winner": "player"},
+         {"playerMove": "rock", "aiMove": "scissors", "winner": "player"},
+     ],
+ ]
 
 def trackWinLossTie(data):
     """Tracks the result of each match/throw for the player."""
@@ -134,11 +133,11 @@ def trackPlayerChoice(data):
     
     for tournament in data:
         for match in tournament:
-            if match["player_move"] == "rock":
+            if match["playerMove"] == "rock":
                 playerRock += 1
-            elif match["player_move"] == "scissors":
+            elif match["playerMove"] == "scissors":
                 playerScissors += 1
-            elif match["player_move"] == "paper":
+            elif match["playerMove"] == "paper":
                 playerPaper += 1
     
     mostCommonPlayerChoice = ""
@@ -159,11 +158,11 @@ def trackAiChoice(data):
     
     for tournament in data:
         for match in tournament:
-            if match["ai_move"] == "rock":
+            if match["aiMove"] == "rock":
                 aiRock += 1
-            elif match["ai_move"] == "scissors":
+            elif match["aiMove"] == "scissors":
                 aiScissors += 1
-            elif match["ai_move"] == "paper":
+            elif match["aiMove"] == "paper":
                 aiPaper += 1
     
     mostCommonAiChoice = ""
@@ -180,27 +179,27 @@ def trackAiChoice(data):
 def headToHead(data):
     """Tracks the results based on throw type over all tournaments. Prints the statistic of each throw and returns a dictionary of all_results."""
     allResults = {
-        "rock": {"total": 0 , "player_win": 0, "ai_win": 0, "tie": 0},
-        "paper": {"total": 0 , "player_win": 0, "ai_win": 0, "tie": 0},
-        "scissors": {"total": 0 , "player_win": 0, "ai_win": 0, "tie": 0}
+        "rock": {"total": 0 , "playerWin": 0, "aiWin": 0, "tie": 0},
+        "paper": {"total": 0 , "playerWin": 0, "aiWin": 0, "tie": 0},
+        "scissors": {"total": 0 , "playerWin": 0, "aiWin": 0, "tie": 0}
     }
     for tournament in data:
         for match in tournament:
             matchWinner = match["winner"]
             for choice in allResults.keys():
-                if choice in (match["player_move"],match["ai_move"]): #what were the moves played during this match (player's,ai) and the choice checks if the rock, paper, or scissors matches one of them 
+                if choice in (match["playerMove"],match["aiMove"]): #what were the moves played during this match (player's,ai) and the choice checks if the rock, paper, or scissors matches one of them 
                     allResults[choice]["total"] += 1 
 
-                    if matchWinner == "player" and match["player_move"]== choice:
-                        allResults[choice]["player_win"] += 1
-                    elif matchWinner == "ai" and match["ai_move"] == choice:
-                        allResults[choice]["ai_win"] += 1
+                    if matchWinner == "player" and match["playerMove"]== choice:
+                        allResults[choice]["playerWin"] += 1
+                    elif matchWinner == "ai" and match["aiMove"] == choice:
+                        allResults[choice]["aiWin"] += 1
                     else:
                         allResults[choice]["tie"]+= 1
     
     print("HEAD-TO-HEAD STATS BY THROW TYPE")
     for choice in allResults.keys():
-      print(f"{'-'*40}\n{choice.upper()}\n{'-'*40}\nTotal Played: {allResults[choice]["total"]}\nPlayer Won: {allResults[choice]["player_win"]}\nAI Won: {allResults[choice]["ai_win"]}\nTies: {allResults[choice]["tie"]}")
+      print(f"{'-'*40}\n{choice.upper()}\n{'-'*40}\nTotal Played: {allResults[choice]["total"]}\nPlayer Won: {allResults[choice]["playerWin"]}\nAI Won: {allResults[choice]["aiWin"]}\nTies: {allResults[choice]["tie"]}")
 
 
     
