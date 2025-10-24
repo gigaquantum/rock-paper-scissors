@@ -89,7 +89,7 @@ def _winPercentage(data):
     print(f"The players' win percentage is: {formula}%")
 
 
-def _currentStreak(data):
+def currentStreak(data):
     """If the last 2 matches have been wins then user is on a winning streak, if last 2 matches have been losses, user is on a losing streak."""
     matchResult = _collectMatchResult(
         data
@@ -227,7 +227,7 @@ def statisticsReport(gameData):
         gameData
     )  # the percentage that the player wins over the number of matches
     print("-" * 40 + "\n")
-    _currentStreak(gameData)
+    currentStreak(gameData)
     print("\n" + "-" * 40)
     _longestWinStreak(gameData)
     print("-" * 40 + "\n")
