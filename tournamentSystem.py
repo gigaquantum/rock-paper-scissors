@@ -8,7 +8,7 @@ Student B: Tournament System
 """
 from aiLogic import getRandomAiMove, getCounterAiMove, getPatternAiMove
 
-# play_series(5, 3, "random")
+# playSeries(5, 3, "random")
 def playSeries(numTournaments, roundsPerTournament, difficulty):
         print(f"You are playing {numTournaments} tournaments")
         print(f"With each tournaments consisting of {roundsPerTournament} rounds")
@@ -94,8 +94,8 @@ for t in range(int(numTournaments)):
             roundNumber += 1
 
         tournamentData.append({
-                "player_move": playerMove,
-                "ai_move": aiMove,
+                "playerMove": playerMove,
+                "aiMove": aiMove,
                 "winner": winner
             })
 
