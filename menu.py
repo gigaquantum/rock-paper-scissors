@@ -82,7 +82,7 @@ def menu():
         )
     )
 
-    return difficulty, numRounds, numTournaments
+    return numTournaments, numRounds, difficulty
 
 
 if __name__ == "__main__":
