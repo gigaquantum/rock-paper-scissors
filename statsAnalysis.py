@@ -23,7 +23,7 @@ gameData = [
 ]
 
 
-def trackWinLossTie(data):
+def _trackWinLossTie(data): #the underscore before the name denotes that this is a private function, and is to be used internally. The only function I will be calling into my Main program will be statisticsReport. 
     """Tracks the result of each match/throw for the player."""
 
     allResults = {
@@ -49,7 +49,7 @@ def trackWinLossTie(data):
         )
 
 
-def collectMatchResult(data):
+def _collectMatchResult(data):
     """This makes a list of the wins, loss, ties per tournament. This can then be used in other functions."""
     matchResult = []
     for tournament in data:  # collect my match results in order of being played
@@ -61,7 +61,7 @@ def collectMatchResult(data):
     return matchResult
 
 
-def allWinLossTie(data):
+def _allWinLossTie(data):
     """Tracks the wins, losses and ties across all tournaments."""
     win = 0
     loss = 0
@@ -78,9 +78,9 @@ def allWinLossTie(data):
 
 
 # calculate win percentage
-def winPercentage(data):
+def _winPercentage(data):
     """Tracks the percentage of wins for the user across all tournaments."""
-    win, loss, tie = allWinLossTie(data)
+    win, loss, tie = _allWinLossTie(data)
     totalMatch = win + loss + tie
     if totalMatch == 0:  # no division by 0
         print(f"Not enough matches have been played")
@@ -91,7 +91,7 @@ def winPercentage(data):
 
 def currentStreak(data):
     """If the last 2 matches have been wins then user is on a winning streak, if last 2 matches have been losses, user is on a losing streak."""
-    matchResult = collectMatchResult(
+    matchResult = _collectMatchResult(
         data
     )  # this calls my function above that stores all my match results
     if len(matchResult) < 2:
@@ -119,9 +119,9 @@ def currentStreak(data):
     # this code isn't dynamic, so each time a new match is played we need to update the match result, so should we have another function to update it as the game is played?
 
 
-def longestWinStreak(data):
+def _longestWinStreak(data):
     """Takes a look at each tournament and determines what the longest streak in that tournament was."""
-    matchResult = collectMatchResult(data)
+    matchResult = _collectMatchResult(data)
 
     longestStreak = 0
     currentStreakCount = 0
@@ -137,7 +137,7 @@ def longestWinStreak(data):
     print(f"The longest streak for the player is: {longestStreak}")
 
 
-def trackPlayerChoice(data):
+def _trackPlayerChoice(data):
     """Tracks the player's choice throughout the tournament, returns the most common choice."""
     playerRock = 0
     playerScissors = 0
@@ -163,7 +163,7 @@ def trackPlayerChoice(data):
     print(f"Most common player choice: {mostCommonPlayerChoice}")
 
 
-def trackAiChoice(data):
+def _trackAiChoice(data):
     """Tracks AI's choice throughout the tournament, returns its most common choice."""
     aiRock = 0
     aiScissors = 0
@@ -189,8 +189,7 @@ def trackAiChoice(data):
     print(f"Most common AI choice: {mostCommonAiChoice}")
 
 
-def headToHead(data):
-    """Tracks the results based on throw type over all tournaments. Prints the statistic of each throw and returns a dictionary of all results."""
+def _headToHead(data): 
     allResults = {
         "rock": {"total": 0, "playerWin": 0, "aiWin": 0, "tie": 0},
         "paper": {"total": 0, "playerWin": 0, "aiWin": 0, "tie": 0},
@@ -222,18 +221,14 @@ def headToHead(data):
 def statisticsReport(gameData):
     """Generates the final statistics report for the game. It calls upon the other functions and puts it all together."""
     print(f"{'-' * 15}STATISTICS REPORT{'-' * 15}\n")
-    trackWinLossTie(gameData)  # player's win/loss/tie by throw type
+    _trackWinLossTie(gameData)  # player's win/loss/tie by throw type
     print("\n\n" + "-" * 40)
-    winPercentage(
-        gameData
-    )  # the percentage that the player wins over the number of matches
-    print("-" * 40 + "\n")
-    currentStreak(gameData)
-    print("\n" + "-" * 40)
-    longestWinStreak(gameData)
-    print("-" * 40 + "\n")
-    trackPlayerChoice(gameData)
-    print("\n" + "-" * 40)
-    trackAiChoice(gameData)
+    _winPercentage(gameData)  # the percentage that the player wins over the number of matches
+    print("-" * 40)
+    _longestWinStreak(gameData)
+    print("-" * 40)
+    _trackPlayerChoice(gameData)
+    print("-" * 40)
+    _trackAiChoice(gameData)
     print("-" * 40 + "\n\n")
-    headToHead(gameData)
+    _headToHead(gameData)
