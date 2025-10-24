@@ -79,7 +79,7 @@ def allWinLossTie(data):
 
 # calculate win percentage
 def winPercentage(data):
-    """Tracks the percentage of wins for the user across all tournaments"""
+    """Tracks the percentage of wins for the user across all tournaments."""
     win, loss, tie = allWinLossTie(data)
     totalMatch = win + loss + tie
     if totalMatch == 0:  # no division by 0
@@ -114,7 +114,7 @@ def currentStreak(data):
     else:
         streakType = "no streak"
 
-    print(f"The player is currently in a {streakType} of length: {streakCount}")
+    print(f"The player is currently in a\n {streakType} of length: {streakCount}")
 
     # this code isn't dynamic, so each time a new match is played we need to update the match result, so should we have another function to update it as the game is played?
 
