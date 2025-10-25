@@ -110,6 +110,8 @@ def playSeries(
     statisticsReport(allMatchData)
     _waitForUser()
     clearOutput()
+
+#FIX: NEED TO FIGURE OUT HOW TO LOOP 
     playAgain = input("\nWant to play again? (yes/no): ").strip().lower()
     if playAgain == "yes":
         clearOutput()
@@ -118,5 +120,5 @@ def playSeries(
         print(f"{bold}Thanks for playing! See you next time.")
         return False
     else:
-        print(f"{bold}{red}Invalid input. Please type 'yes' or 'no'.{reset}")
+        print(f"{bold}{red}Invalid input. Please type yes' or 'no'.{reset}")
         playAgain = input("\nWant to play again? (yes/no): ").strip().lower()
