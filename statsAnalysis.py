@@ -39,7 +39,7 @@ def _trackWinLossTie(data): #the underscore before the name denotes that this is
                 allResults[choice]["win"] += 1
             elif winner == "ai":
                 allResults[choice]["loss"] += 1
-            elif winner == ["tie","none"]:
+            elif winner in ["tie","none"]:
                 allResults[choice]["tie"] += 1
 
     print("WINS, LOSS AND TIE BY THROW TYPE")
