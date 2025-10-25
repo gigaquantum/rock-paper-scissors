@@ -10,7 +10,7 @@ Student B: Tournament System
 bold = "\033[1m"
 reset = "\033[0m"
 red = "\033[31m"
-green = "\033[32m"
+green = "\033[92m"
 blue = "\033[34m"
 purple = "\033[35m"
 cyan = "\033[36m"
@@ -67,7 +67,7 @@ def playSeries(
         roundNumber = 0
         while playerScore < requiredWins and aiScore < requiredWins:
             roundNumber += 1
-            print(f"\nRound {roundNumber}")
+            print(f"\n{bold}Round {roundNumber}{reset}")
             playerMove = str(input("Choose rock, paper, or scissors: ")).lower()
             while playerMove not in ["rock", "paper", "scissors"]:
                 print(f"{bold}{red}Invalid move. Try again.{reset}")
@@ -85,19 +85,19 @@ def playSeries(
             winner = _determineWinner(playerMove, aiMove)
             if winner == "player":
                 playerScore += 1
-                print("You win this round!")
+                print(f"{bold}You win this round!{reset}")
             elif winner == "ai":
                 aiScore += 1
-                print("AI wins this round!")
+                print(f"{bold}AI wins this round!{reset}")
             else:
-                print("It's a tie!")
+                print(f"{bold}It's a tie!{reset}")
             print(f"Score — You: {playerScore}, AI: {aiScore}")
             allMatchData[-1].append(
                 {"playerMove": playerMove, "aiMove": aiMove, "winner": winner}
             )
             currentStreak(allMatchData)
 
-        print(f"\n{bold}Final Tournament Score — {green}You: {playerScore}{reset}, {bold}{purple}AI: {aiScore}{reset}")
+        print(f"\n{bold}Final Tournament Score — You: {playerScore}, AI: {aiScore}{reset}")
         if playerScore > aiScore:
             print(f"{bold}{green}You won the tournament!")
         else:
