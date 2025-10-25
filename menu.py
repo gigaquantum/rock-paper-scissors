@@ -67,7 +67,11 @@ def menu():
     print(f"{bold}{cyan}Welcome to Rock, Paper, Scissors! Please select your game options below.{reset}")
 
     rawDifficulty = _getValidInput(
-        "\nWhich AI difficulty would you like to play with? Indicate your choice by typing the number next to the option.\n(1) Random AI\n(2) Counter AI\n(3) Pattern AI\n\nYour choice: ",
+        "\nWhich AI difficulty would you like to play with? Indicate your choice by typing the number next to the option."
+        f"{bold}(1) Random AI{reset}\n"
+        f"{bold}(2) Counter AI{reset}\n"
+        f"{bold}(3) Pattern AI{reset}\n\n"
+        "Your choice: ",
         lambda x: x in ["1", "2", "3"],
     )
     if rawDifficulty == "1":
@@ -79,7 +83,7 @@ def menu():
 
     numRounds = int(
         _getValidInput(
-            f"\nHow many rounds per tournament do you want? The options are {bold}3, 5, and 7{reset}.\n\nYour choice: ",
+            "\nHow many rounds per tournament do you want? The options are 3, 5, and 7.\n\nYour choice: ",
             lambda x: x in ["3", "5", "7"],
         )
     )
