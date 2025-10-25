@@ -170,7 +170,7 @@ def _trackPlayerChoice(data):
     if len(mostCommonPlayerChoice) == 1:
         print(f"{bold}Most common player choice: {cyan}{mostCommonPlayerChoice[0]}{reset}")
     else:
-        print(f"{bold}Your most common move was a tie: {cyan}{mostCommonPlayerChoice[0]}, {mostCommonPlayerChoice[1]}{reset}")
+        print(f"{bold}Your most common move was tied between: {cyan}{", ".join(mostCommonPlayerChoice[:-1])}, and {mostCommonPlayerChoice[-1]}{reset}")
 
 
 def _trackAiChoice(data):
