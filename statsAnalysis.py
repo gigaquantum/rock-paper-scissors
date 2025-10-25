@@ -208,10 +208,10 @@ def _trackAiChoice(data):
         choice for choice, count in aiCounts.items() if count == max_count
     ]
     if len(mostCommonAiChoice) == 1:
-        print(f"{bold}Most common AI choice: {cyan}{mostCommonAiChoice[0]}{reset}")
+        print(f"{bold}Most common AI move: {cyan}{mostCommonAiChoice[0]}{reset}")
     else:
         print(
-            f"{bold}AI's most common move was a tie: {cyan}{mostCommonAiChoice[0]}, {mostCommonAiChoice[1]}{reset}"
+            f"{bold}Most common AI move was tied between: {cyan}{', '.join(mostCommonAiChoice[:-1])}, and {mostCommonAiChoice[-1]}{reset}"
         )
 
 

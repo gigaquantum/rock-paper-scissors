@@ -7,8 +7,6 @@ Student B: Tournament System
 - Ability to play multiple series
 """
 
-import time
-
 from typing import Callable, Literal
 
 from aiLogic import getRandomAiMove, getCounterAiMove, getPatternAiMove
@@ -26,7 +24,6 @@ underline = "\033[4m"
 
 
 def _waitForUser():
-    time.sleep(2)
     input("\nPress any key and hit enter to continue...")
 
 
