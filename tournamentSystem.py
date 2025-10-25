@@ -6,6 +6,15 @@ Student B: Tournament System
 - Series winner determination
 - Ability to play multiple series
 """
+#we can use these to make the output more user friendly and easier to read
+bold = "\033[1m"
+reset = "\033[0m"
+red = "\033[31m"
+green = "\033[32m"
+blue = "\033[34m"
+purple = "\033[35m"
+cyan = "\033[36m"
+underline = "\033[4m"
 
 import time
 
@@ -51,7 +60,7 @@ def playSeries(
 
     for t in range(int(numTournaments)):
         clearOutput()
-        print(f"\nTournament {t + 1} — Best of {roundsPerTournament}")
+        print(f"\n{bold}{underline}Tournament {t + 1} — Best of {roundsPerTournament}{reset}")
         playerScore = 0
         aiScore = 0
         allMatchData.append([])
@@ -61,7 +70,7 @@ def playSeries(
             print(f"\nRound {roundNumber}")
             playerMove = str(input("Choose rock, paper, or scissors: ")).lower()
             while playerMove not in ["rock", "paper", "scissors"]:
-                print("Invalid move. Try again.")
+                print(f"{bold}{red}Invalid move. Try again.{reset}")
                 playerMove = str(input("\nChoose rock, paper, or scissors: ")).lower()
 
             # All the AI's difficulty
@@ -88,11 +97,11 @@ def playSeries(
             )
             currentStreak(allMatchData)
 
-        print(f"\nFinal Tournament Score — You: {playerScore}, AI: {aiScore}")
+        print(f"\n{bold}Final Tournament Score — {green}You: {playerScore}{reset}, {bold}{purple}AI: {aiScore}{reset}")
         if playerScore > aiScore:
-            print("You won the tournament!")
+            print(f"{bold}{green}You won the tournament!")
         else:
-            print("AI won the tournament!")
+            print(f"{bold}{purple}AI won the tournament!")
         _waitForUser()
 
     clearOutput()
@@ -106,5 +115,5 @@ def playSeries(
         clearOutput()
         return True
     else:
-        print("Thanks for playing! See you next time.")
+        print(f"{bold}Thanks for playing! See you next time.")
         return False
