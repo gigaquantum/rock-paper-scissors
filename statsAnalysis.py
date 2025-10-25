@@ -102,7 +102,7 @@ def currentStreak(data):
     """If the last 2 matches have been wins then user is on a winning streak, if last 2 matches have been losses, user is on a losing streak."""
     matchResult = _collectMatchResult(data)  # this calls my function above that stores all my match results
 
-    lastPlay = matchResult[-1:]  # compares only the last 2 results from the tournament
+    lastPlay = matchResult[-1]  # compares only the last 2 results from the tournament
     streakCount = 1
 
     secondToLast = len(matchResult)-2 #am going to iterate backwards so this shows that i am starting from the second to last match
@@ -151,27 +151,6 @@ def _longestWinStreak(data):
 
 def _trackPlayerChoice(data):
     """Tracks the player's choice throughout the tournament, returns the most common choice."""
-#    playerRock = 0
-#    playerScissors = 0
-#    playerPaper = 0
-
-#    for tournament in data:
-#        for match in tournament:
-#            if match["playerMove"] == "rock":
-#                playerRock += 1
-#            elif match["playerMove"] == "scissors":
-#                playerScissors += 1
-#            elif match["playerMove"] == "paper":
-#                playerPaper += 1
-#
-#    mostCommonPlayerChoice = ""
-#    if playerRock < playerScissors > playerPaper:
-#        mostCommonPlayerChoice = "scissors"
-#    elif playerScissors < playerRock > playerPaper:
-#        mostCommonPlayerChoice = "rock"
-#    else:
-#        mostCommonPlayerChoice = "paper"
-
     playerCounts = {"rock": 0, "paper": 0, "scissors": 0}
 
     for tournament in data:
@@ -195,7 +174,7 @@ def _trackAiChoice(data):
 
     for tournament in data:
         for match in tournament:
-            choice = match["playerMove"]
+            choice = match["aiMove"]
             if choice in aiCounts:
                 aiCounts[choice] += 1
         
