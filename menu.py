@@ -38,6 +38,15 @@ Z¦¦¦¦¦¦¦¦¦oN2¦oÆ       n¦oN  NÆN2¦¦e   n¦2Æn¦ëÕ   N¦¦NÆn�
 ÆÆÆÆ                                                                       
 """
 
+#we can use these to make the output more user friendly and easier to read
+bold = "\033[1m"
+reset = "\033[0m"
+red = "\033[31m"
+green = "\033[92m"
+blue = "\033[34m"
+purple = "\033[35m"
+cyan = "\033[36m"
+underline = "\033[4m"
 
 def _getValidInput(inputMessage: str, isValidConditional: Callable) -> Any:
     """Gets an input from the user based on the given input message. Checks if it's valid according to the provided conditional; if it's valid, return the value, if it's not valid, ask the user to reenter the input."""
@@ -47,7 +56,7 @@ def _getValidInput(inputMessage: str, isValidConditional: Callable) -> Any:
         if isValidConditional(inputValue):
             isValidInput = True
         else:
-            print("That's not a valid option! Please try again below.")
+            print(f"{bold}{red}That's not a valid option! Please try again below.{reset}")
             inputValue = input(inputMessage).strip().lower()
     return inputValue
 
@@ -55,7 +64,7 @@ def _getValidInput(inputMessage: str, isValidConditional: Callable) -> Any:
 def menu():
     """Brings up the main menu for the game. Asks users for game parameters before returning those parameters."""
     print(menuArt, "\n")
-    print("Welcome to Rock, Paper, Scissors! Please select your game options below.")
+    print(f"{bold}{cyan}Welcome to Rock, Paper, Scissors! Please select your game options below.{reset}")
 
     rawDifficulty = _getValidInput(
         "\nWhich AI difficulty would you like to play with? Indicate your choice by typing the number next to the option.\n(1) Random AI\n(2) Counter AI\n(3) Pattern AI\n\nYour choice: ",
