@@ -8,6 +8,7 @@ Student A: Core Game Logic & AI
 """
 
 import random
+import copy
 
 moveChoices = ["rock", "paper", "scissors"]
 
@@ -72,6 +73,7 @@ def getCounterAiMove(moveData: list[list[dict]]) -> str:
 def getPatternAiMove(moveData: list[list[dict]], contextLength: int = 3) -> str:
     """Predicts the player's next move based on the player's previous moves, up to the context_length number of moves. If there's a tie, select randomly from the top predictions. If there's no data, selects a random move. If there's only one previous round, selects the move that beats the user's first move."""
 
+    # flattens the series data into a 1D array of round dictionaries
     flattenedData = _flattenMatchData(moveData)
     if len(flattenedData) == 0:
         return getRandomAiMove()
@@ -80,11 +82,13 @@ def getPatternAiMove(moveData: list[list[dict]], contextLength: int = 3) -> str:
 
     numDimensions = min(contextLength, len(flattenedData) - 1)
 
+    # prepares an empty dictionary n dimensions deep
     moveCounts = {move: 0 for move in moveChoices}
     for _ in range(numDimensions):
-        higherDimensionMoveCounts = {move: moveCounts for move in moveChoices}
+        higherDimensionMoveCounts = {move: copy.deepcopy(moveCounts) for move in moveChoices}
         moveCounts = higherDimensionMoveCounts
 
+    # tallies which move came after numDimensions previous move
     for i in range(len(flattenedData) - numDimensions):
         window = flattenedData[i : i + numDimensions + 1]
         moveOrder = []
@@ -96,6 +100,7 @@ def getPatternAiMove(moveData: list[list[dict]], contextLength: int = 3) -> str:
             selectedCombo = nextLevel
         selectedCombo[moveOrder[-1]] += 1
 
+    # gets the move tallies for moves that came after the player's past numDimensions moves
     moveOrderContext = []
     for moveDict in flattenedData[-numDimensions:]:
         moveOrderContext.append(moveDict["playerMove"])
@@ -104,6 +109,7 @@ def getPatternAiMove(moveData: list[list[dict]], contextLength: int = 3) -> str:
         nextLevel = currentContextData[move]
         currentContextData = nextLevel
 
+    # gets the counter to the player's most common next move (ties broken with random selection)
     moveToCounter = _getTopMove(
         currentContextData["rock"],
         currentContextData["paper"],
@@ -117,15 +123,15 @@ if __name__ == "__main__":
         [
             {"playerMove": "rock", "aiMove": "paper", "winner": "ai"},
             {"playerMove": "scissors", "aiMove": "paper", "winner": "player"},
-            {"playerMove": "scissors", "aiMove": "scissors", "winner": "none"},
+            {"playerMove": "paper", "aiMove": "scissors", "winner": "none"},
         ],
         [
-            {"playerMove": "scissors", "aiMove": "rock", "winner": "ai"},
+            {"playerMove": "rock", "aiMove": "rock", "winner": "ai"},
             {"playerMove": "scissors", "aiMove": "paper", "winner": "player"},
-            {"playerMove": "rock", "aiMove": "scissors", "winner": "player"},
+            {"playerMove": "paper", "aiMove": "scissors", "winner": "player"},
         ],
     ]
 
     print("Random AI Move:", getRandomAiMove())
     print("Counter AI Move:", getCounterAiMove(testData))
-    print("Counter AI Move:", getPatternAiMove(testData))
+    print("Pattern AI Move:", getPatternAiMove(testData))
