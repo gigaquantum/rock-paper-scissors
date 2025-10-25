@@ -79,7 +79,7 @@ def menu():
 
     numRounds = int(
         _getValidInput(
-            "\nHow many rounds per tournament do you want? The options are 3, 5, and 7.\n\nYour choice: ",
+            f"\nHow many rounds per tournament do you want? The options are {bold}3, 5, and 7{reset}.\n\nYour choice: ",
             lambda x: x in ["3", "5", "7"],
         )
     )
