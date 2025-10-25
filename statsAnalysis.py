@@ -35,11 +35,15 @@ def _trackWinLossTie(data): #the underscore before the name denotes that this is
         for match in tournament:
             choice = match["playerMove"]
             winner = match["winner"]
+
+            if winner == "none":
+                winner = "tie"
+
             if winner == "player":
                 allResults[choice]["win"] += 1
             elif winner == "ai":
                 allResults[choice]["loss"] += 1
-            elif winner in ["tie","none"]:
+            elif winner =="tie":
                 allResults[choice]["tie"] += 1
 
     print("WINS, LOSS AND TIE BY THROW TYPE")
