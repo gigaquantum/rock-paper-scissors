@@ -119,4 +119,4 @@ def playSeries(
         return False
     else:
         print(f"{bold}{red}Invalid input. Please type 'yes' or 'no'.{reset}")
-
+        playAgain = input("\nWant to play again? (yes/no): ").strip().lower()
