@@ -110,10 +110,13 @@ def playSeries(
     statisticsReport(allMatchData)
     _waitForUser()
     clearOutput()
-    playAgain = input("\nWant to play again? (yes/no): ").lower()
+    playAgain = input("\nWant to play again? (yes/no): ").strip().lower()
     if playAgain == "yes":
         clearOutput()
         return True
-    else:
+    elif playAgain == "no":
         print(f"{bold}Thanks for playing! See you next time.")
         return False
+    else:
+        print(f"{bold}{red}Invalid input. Please type 'yes' or 'no'.{reset}")
+
