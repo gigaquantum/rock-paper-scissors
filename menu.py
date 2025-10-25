@@ -68,11 +68,11 @@ def menu():
 
     rawDifficulty = _getValidInput(
         f"""
-        \nWhich AI difficulty would you like to play with? Indicate your choice by typing the number next to the option."
+        Which AI difficulty would you like to play with? Indicate your choice by typing the number next to the option.
         {bold}(1) Random AI{reset}
         {bold}(2) Counter AI{reset}
         {bold}(3) Pattern AI{reset}
-        
+
         Your choice: """,
         lambda x: x in ["1", "2", "3"],
     )
