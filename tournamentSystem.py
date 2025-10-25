@@ -12,7 +12,7 @@ import time
 from typing import Callable, Literal
 
 from aiLogic import getRandomAiMove, getCounterAiMove, getPatternAiMove
-from statsAnalysis import statisticsReport
+from statsAnalysis import statisticsReport, currentStreak
 
 
 def _waitForUser():
@@ -86,6 +86,7 @@ def playSeries(
             allMatchData[-1].append(
                 {"playerMove": playerMove, "aiMove": aiMove, "winner": winner}
             )
+            currentStreak(allMatchData)
 
         print(f"\nFinal Tournament Score — You: {playerScore}, AI: {aiScore}")
         if playerScore > aiScore:
