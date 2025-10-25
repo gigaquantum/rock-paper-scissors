@@ -101,7 +101,7 @@ def _winPercentage(data):
         print(f"Not enough matches have been played")
     else:
         formula = (win / totalMatch) * 100
-    print(f"{bold}Out of {totalMatch} matches played your win percentage was: {cyan}{formula:.2f}%{reset}")
+    print(f"{bold}Your won {cyan}{formula:.2f}%{reset} of the matches")
 
 
 def currentStreak(data):
@@ -152,7 +152,7 @@ def _longestWinStreak(data):
     else:
         streakLabel = "tie streak"
 
-    print(f"{bold}Your longest streak was: {cyan}{longestStreak}{reset}{bold}and it was a {cyan}{streakLabel}.{reset}")
+    print(f"{bold}Your longest streak was: {cyan}{longestStreak}{reset}{bold} and it was a {cyan}{streakLabel}.{reset}")
 
 
 def _trackPlayerChoice(data):
@@ -226,7 +226,6 @@ def _headToHead(data):
 def statisticsReport(gameData):
     """Generates the final statistics report for the game. It calls upon the other functions and puts it all together."""
     print(f"{bold}{cyan}{'-' * 15}END OF SERIES STATISTICS REPORT{'-' * 15}{reset}\n")
-    #print(f"Number of tournaments in series {numTournament}")
     _trackWinLossTie(gameData)  # player's win/loss/tie by throw type
     print("\n\n" + "-" * 60)
     _winPercentage(gameData)  # the percentage that the player wins over the number of matches
