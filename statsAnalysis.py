@@ -43,7 +43,7 @@ def _trackWinLossTie(data): #the underscore before the name denotes that this is
                 allResults[choice]["win"] += 1
             elif winner == "ai":
                 allResults[choice]["loss"] += 1
-            elif winner =="tie":
+            elif winner == "tie":
                 allResults[choice]["tie"] += 1
 
     print("WINS, LOSS AND TIE BY THROW TYPE")
@@ -90,107 +90,116 @@ def _winPercentage(data):
         print(f"Not enough matches have been played")
     else:
         formula = (win / totalMatch) * 100
-    print(f"The players' win percentage is: {formula}%")
+    print(f"The players' win percentage is: {formula:.2f}%")
 
 
 def currentStreak(data):
     """If the last 2 matches have been wins then user is on a winning streak, if last 2 matches have been losses, user is on a losing streak."""
-    matchResult = _collectMatchResult(
-        data
-    )  # this calls my function above that stores all my match results
-    if len(matchResult) < 2:
-        return "No streak yet, not enough matches have been played"
+    matchResult = _collectMatchResult(data)  # this calls my function above that stores all my match results
 
-    lastTwo = matchResult[-2:]  # compares only the last 2 results from the tournament
-    streakCount = 0
+    lastPlay = matchResult[-1:]  # compares only the last 2 results from the tournament
+    streakCount = 1
 
-    if (
-        lastTwo[0] == lastTwo[1] and lastTwo[0] != "tie"
-    ):  # if the last two are the same then my streak count increases, if there is a tie or the last two dont match that breaks the streak
+    secondToLast = len(matchResult)-2 #am going to iterate backwards so this shows that i am starting from the second to last match
+    while secondToLast >= 0 and matchResult[secondToLast] == lastPlay:
         streakCount += 1
+        secondToLast -= 1 
+    
+    if lastPlay == "win":
+        streakLabel = "winning streak"
+    elif lastPlay == "loss":
+        streakLabel = "losing streak"
     else:
-        streakCount = 0
-
-    if lastTwo == ["win", "win"]:
-        streakType = "winning streak"
-    elif lastTwo == ["loss", "loss"]:
-        streakType = "losing streak"
-    else:
-        streakType = "no streak"
-
-    print(f"The player is currently in a\n {streakType} of length: {streakCount}")
-
-    # this code isn't dynamic, so each time a new match is played we need to update the match result, so should we have another function to update it as the game is played?
-
+        streakLabel = "tie streak"
+    
+    if streakCount >= 2:
+        print(f"You are currentlu in a {streakLabel} of length: {streakCount}")
+   
 
 def _longestWinStreak(data):
     """Takes a look at each tournament and determines what the longest streak in that tournament was."""
     matchResult = _collectMatchResult(data)
 
-    longestStreak = 0
-    currentStreakCount = 0
+    longestStreak = 1
+    currentStreakCount = 1
+    longestStreakType = matchResult[0] #this makes it so I start with the first match result
 
-    for r in matchResult:
-        if r == "win":
+    for r in range(1,len(matchResult)): #I start looping through the results from the second match onward
+        if matchResult[r] == matchResult[r - 1]:
             currentStreakCount += 1
-            if currentStreakCount > longestStreak:
-                longestStreak = currentStreakCount
         else:
-            currentStreakCount = 0
+            currentStreakCount = 1 #resets my streak count bc it was broken
+        
+        if currentStreakCount > longestStreak:
+            longestStreak = currentStreakCount
+            longestStreakType = matchResult[r]
+    
+    if longestStreakType == "win":
+        streakLabel = "winning streak"
+    elif longestStreakType == "loss":
+        streakLabel = "losing streak"
+    else:
+        streakLabel = "tie streak"
 
-    print(f"The longest streak for the player is: {longestStreak}")
+    print(f"The longest streak for the player is: {longestStreak} and it was a {streakLabel}.")
 
 
 def _trackPlayerChoice(data):
     """Tracks the player's choice throughout the tournament, returns the most common choice."""
-    playerRock = 0
-    playerScissors = 0
-    playerPaper = 0
+#    playerRock = 0
+#    playerScissors = 0
+#    playerPaper = 0
+
+#    for tournament in data:
+#        for match in tournament:
+#            if match["playerMove"] == "rock":
+#                playerRock += 1
+#            elif match["playerMove"] == "scissors":
+#                playerScissors += 1
+#            elif match["playerMove"] == "paper":
+#                playerPaper += 1
+#
+#    mostCommonPlayerChoice = ""
+#    if playerRock < playerScissors > playerPaper:
+#        mostCommonPlayerChoice = "scissors"
+#    elif playerScissors < playerRock > playerPaper:
+#        mostCommonPlayerChoice = "rock"
+#    else:
+#        mostCommonPlayerChoice = "paper"
+
+    playerCounts = {"rock": 0, "paper": 0, "scissors": 0}
 
     for tournament in data:
         for match in tournament:
-            if match["playerMove"] == "rock":
-                playerRock += 1
-            elif match["playerMove"] == "scissors":
-                playerScissors += 1
-            elif match["playerMove"] == "paper":
-                playerPaper += 1
-
-    mostCommonPlayerChoice = ""
-    if playerRock < playerScissors > playerPaper:
-        mostCommonPlayerChoice = "scissors"
-    elif playerScissors < playerRock > playerPaper:
-        mostCommonPlayerChoice = "rock"
+            choice = match["playerMove"]
+            if choice in playerCounts:
+                playerCounts[choice] += 1
+        
+    max_count = max(playerCounts.values())
+    mostCommonPlayerChoice = [choice for choice, count in playerCounts.items()if count == max_count]
+    if len(mostCommonPlayerChoice) == 1:
+        print(f"Most common player choice: {mostCommonPlayerChoice[0]}")
     else:
-        mostCommonPlayerChoice = "paper"
-
-    print(f"Most common player choice: {mostCommonPlayerChoice}")
+        print(f"There was a tie between most common moves: {mostCommonPlayerChoice[0]}, {mostCommonPlayerChoice[1]}")
 
 
 def _trackAiChoice(data):
     """Tracks AI's choice throughout the tournament, returns its most common choice."""
-    aiRock = 0
-    aiScissors = 0
-    aiPaper = 0
+
+    aiCounts = {"rock": 0, "paper": 0, "scissors": 0}
 
     for tournament in data:
         for match in tournament:
-            if match["aiMove"] == "rock":
-                aiRock += 1
-            elif match["aiMove"] == "scissors":
-                aiScissors += 1
-            elif match["aiMove"] == "paper":
-                aiPaper += 1
-
-    mostCommonAiChoice = ""
-    if aiRock < aiScissors > aiPaper:
-        mostCommonAiChoice = "scissors"
-    elif aiScissors < aiRock > aiPaper:
-        mostCommonAiChoice = "rock"
+            choice = match["playerMove"]
+            if choice in aiCounts:
+                aiCounts[choice] += 1
+        
+    max_count = max(aiCounts.values())
+    mostCommonAiChoice = [choice for choice, count in aiCounts.items()if count == max_count]
+    if len(mostCommonAiChoice) == 1:
+        print(f"Most common player choice: {mostCommonAiChoice[0]}")
     else:
-        mostCommonAiChoice = "paper"
-
-    print(f"Most common AI choice: {mostCommonAiChoice}")
+        print(f"There was a tie between most common moves: {mostCommonAiChoice[0]}, {mostCommonAiChoice[1]}")
 
 
 def _headToHead(data): 
@@ -202,17 +211,19 @@ def _headToHead(data):
     for tournament in data:
         for match in tournament:
             matchWinner = match["winner"]
+
+            if matchWinner == "none":
+                matchWinner = "tie" 
+
             for choice in allResults.keys():
-                if (
-                    choice in (match["playerMove"], match["aiMove"])
-                ):  # what were the moves played during this match (player's,ai) and the choice checks if the rock, paper, or scissors matches one of them
+                if (choice in (match["playerMove"], match["aiMove"])):  # what were the moves played during this match (player's,ai) and the choice checks if the rock, paper, or scissors matches one of them
                     allResults[choice]["total"] += 1
 
                     if matchWinner == "player" and match["playerMove"] == choice:
                         allResults[choice]["playerWin"] += 1
                     elif matchWinner == "ai" and match["aiMove"] == choice:
                         allResults[choice]["aiWin"] += 1
-                    else:
+                    elif matchWinner in ["tie" , "none"]:  #####tried to fix tie counter here 
                         allResults[choice]["tie"] += 1
 
     print("HEAD-TO-HEAD STATS BY THROW TYPE")
@@ -222,9 +233,12 @@ def _headToHead(data):
         )
 
 
+BOLD = "\033[1m"
+RESET = "\033[0m"
+
 def statisticsReport(gameData):
     """Generates the final statistics report for the game. It calls upon the other functions and puts it all together."""
-    print(f"{'-' * 15}STATISTICS REPORT{'-' * 15}\n")
+    print(f"{BOLD}{'-' * 15}STATISTICS REPORT{'-' * 15}{RESET}\n")
     _trackWinLossTie(gameData)  # player's win/loss/tie by throw type
     print("\n\n" + "-" * 40)
     _winPercentage(gameData)  # the percentage that the player wins over the number of matches
