@@ -67,11 +67,13 @@ def menu():
     print(f"{bold}{cyan}Welcome to Rock, Paper, Scissors! Please select your game options below.{reset}")
 
     rawDifficulty = _getValidInput(
-        "\nWhich AI difficulty would you like to play with? Indicate your choice by typing the number next to the option."
-        f"{bold}(1) Random AI{reset}\n"
-        f"{bold}(2) Counter AI{reset}\n"
-        f"{bold}(3) Pattern AI{reset}\n\n"
-        "Your choice: ",
+        f"""
+        \nWhich AI difficulty would you like to play with? Indicate your choice by typing the number next to the option."
+        {bold}(1) Random AI{reset}
+        {bold}(2) Counter AI{reset}
+        {bold}(3) Pattern AI{reset}
+        
+        Your choice: """,
         lambda x: x in ["1", "2", "3"],
     )
     if rawDifficulty == "1":
