@@ -101,7 +101,7 @@ def _winPercentage(data):
         print(f"Not enough matches have been played")
     else:
         formula = (win / totalMatch) * 100
-    print(f"{bold}Your won {cyan}{formula:.2f}%{reset} of the matches")
+    print(f"{bold}You won {cyan}{formula:.2f}%{reset} {bold}of the matches{reset}")
 
 
 def currentStreak(data):
@@ -124,7 +124,7 @@ def currentStreak(data):
         streakLabel = "tie streak"
     
     if streakCount >= 2:
-        print(f"{cyan}You are currently in a {streakLabel} of length: {streakCount}{reset}")
+        print(f"You are currently in a {streakLabel} of length: {streakCount}")
    
 
 def _longestWinStreak(data):
