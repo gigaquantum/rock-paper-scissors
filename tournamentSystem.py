@@ -6,7 +6,15 @@ Student B: Tournament System
 - Series winner determination
 - Ability to play multiple series
 """
-#we can use these to make the output more user friendly and easier to read
+
+import time
+
+from typing import Callable, Literal
+
+from aiLogic import getRandomAiMove, getCounterAiMove, getPatternAiMove
+from statsAnalysis import statisticsReport, currentStreak
+
+# we use these to make the output more user friendly and easier to read
 bold = "\033[1m"
 reset = "\033[0m"
 red = "\033[31m"
@@ -15,13 +23,6 @@ blue = "\033[34m"
 purple = "\033[35m"
 cyan = "\033[36m"
 underline = "\033[4m"
-
-import time
-
-from typing import Callable, Literal
-
-from aiLogic import getRandomAiMove, getCounterAiMove, getPatternAiMove
-from statsAnalysis import statisticsReport, currentStreak
 
 
 def _waitForUser():
@@ -60,7 +61,9 @@ def playSeries(
 
     for t in range(int(numTournaments)):
         clearOutput()
-        print(f"\n{bold}{underline}Tournament {t + 1} — Best of {roundsPerTournament}{reset}")
+        print(
+            f"\n{bold}{underline}Tournament {t + 1} — Best of {roundsPerTournament}{reset}"
+        )
         playerScore = 0
         aiScore = 0
         allMatchData.append([])
@@ -97,7 +100,9 @@ def playSeries(
             )
             currentStreak(allMatchData)
 
-        print(f"\n{bold}Final Tournament Score — You: {playerScore}, AI: {aiScore}{reset}")
+        print(
+            f"\n{bold}Final Tournament Score — You: {playerScore}, AI: {aiScore}{reset}"
+        )
         if playerScore > aiScore:
             print(f"{bold}{green}You won the tournament!")
         else:
@@ -111,14 +116,14 @@ def playSeries(
     _waitForUser()
     clearOutput()
 
-#FIX: NEED TO FIGURE OUT HOW TO LOOP 
     playAgain = input("\nWant to play again? (yes/no): ").strip().lower()
+    while playAgain not in ["yes", "no"]:
+        print(f"{bold}{red}Invalid input. Please type 'yes' or 'no'.{reset}")
+        playAgain = input("\nWant to play again? (yes/no): ").strip().lower()
+
     if playAgain == "yes":
         clearOutput()
         return True
-    elif playAgain == "no":
+    else:
         print(f"{bold}Thanks for playing! See you next time.")
         return False
-    else:
-        print(f"{bold}{red}Invalid input. Please type yes' or 'no'.{reset}")
-        playAgain = input("\nWant to play again? (yes/no): ").strip().lower()
