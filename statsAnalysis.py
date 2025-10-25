@@ -23,8 +23,14 @@ gameData = [
 ]
 
 #will make things bold so that the output is more user friendly and easier to read
-BOLD = "\033[1m"
-RESET = "\033[0m"
+bold = "\033[1m"
+reset = "\033[0m"
+red = "\033[31m"
+green = "\033[32m"
+blue = "\033[34m"
+purple = "\033[35m"
+cyan = "\033[36m"
+underline = "\033[4m"
 
 def _trackWinLossTie(data): #the underscore before the name denotes that this is a private function, and is to be used internally. The only function I will be calling into my Main program will be statisticsReport. 
     """Tracks the result of each match/throw for the player."""
@@ -49,10 +55,10 @@ def _trackWinLossTie(data): #the underscore before the name denotes that this is
             elif winner == "tie":
                 allResults[choice]["tie"] += 1
 
-    print(f"{BOLD}WINS, LOSS AND TIE BY THROW TYPE{RESET}")
+    print(f"{bold}WINS, LOSS AND TIE BY THROW TYPE{reset}")
     for choice in allResults.keys():
         print(
-            f"{'-' * 40}\n{choice.upper()}\n{'-' * 40}\nWins: {allResults[choice]['win']}\nLosses: {allResults[choice]['loss']}\nTies: {allResults[choice]['tie']}"
+            f"{'-' * 60}\n{cyan}{bold}{choice.upper()}{reset}\n{'-' * 60}\n{bold}Wins:{reset} {allResults[choice]['win']}\n{bold}Losses:{reset} {allResults[choice]['loss']}\n{bold}Ties:{reset} {allResults[choice]['tie']}"
         )
 
 
@@ -95,7 +101,7 @@ def _winPercentage(data):
         print(f"Not enough matches have been played")
     else:
         formula = (win / totalMatch) * 100
-    print(f"{BOLD}The players' win percentage is: {formula:.2f}%{RESET}")
+    print(f"{bold}Out of {totalMatch} matches played your win percentage was: {cyan}{formula:.2f}%{reset}")
 
 
 def currentStreak(data):
@@ -118,7 +124,7 @@ def currentStreak(data):
         streakLabel = "tie streak"
     
     if streakCount >= 2:
-        print(f"{BOLD}You are currently in a {streakLabel} of length: {streakCount}{RESET}")
+        print(f"{cyan}You are currently in a {streakLabel} of length: {streakCount}{reset}")
    
 
 def _longestWinStreak(data):
@@ -146,7 +152,7 @@ def _longestWinStreak(data):
     else:
         streakLabel = "tie streak"
 
-    print(f"{BOLD}The longest streak for the player is: {longestStreak}\n and it was a {streakLabel}.{RESET}")
+    print(f"{bold}Your longest streak was: {cyan}{longestStreak}{reset}{bold}and it was a {cyan}{streakLabel}.{reset}")
 
 
 def _trackPlayerChoice(data):
@@ -162,9 +168,9 @@ def _trackPlayerChoice(data):
     max_count = max(playerCounts.values())
     mostCommonPlayerChoice = [choice for choice, count in playerCounts.items()if count == max_count]
     if len(mostCommonPlayerChoice) == 1:
-        print(f"{BOLD}Most common player choice: {mostCommonPlayerChoice[0]}{RESET}")
+        print(f"{bold}Most common player choice: {cyan}{mostCommonPlayerChoice[0]}{reset}")
     else:
-        print(f"{BOLD}There was a tie between most common moves: {mostCommonPlayerChoice[0]}, {mostCommonPlayerChoice[1]}{RESET}")
+        print(f"{bold}Your most common move was a tie: {cyan}{mostCommonPlayerChoice[0]}, {mostCommonPlayerChoice[1]}{reset}")
 
 
 def _trackAiChoice(data):
@@ -181,9 +187,9 @@ def _trackAiChoice(data):
     max_count = max(aiCounts.values())
     mostCommonAiChoice = [choice for choice, count in aiCounts.items()if count == max_count]
     if len(mostCommonAiChoice) == 1:
-        print(f"{BOLD}Most common AI choice: {mostCommonAiChoice[0]}{RESET}")
+        print(f"{bold}Most common AI choice: {cyan}{mostCommonAiChoice[0]}{reset}")
     else:
-        print(f"{BOLD}There was a tie between most common moves: {mostCommonAiChoice[0]}, {mostCommonAiChoice[1]}{RESET}")
+        print(f"{bold}AI's most common move was a tie: {cyan}{mostCommonAiChoice[0]}, {mostCommonAiChoice[1]}{reset}")
 
 
 def _headToHead(data): 
@@ -210,24 +216,25 @@ def _headToHead(data):
                     elif matchWinner in ["tie" , "none"]:  #####tried to fix tie counter here 
                         allResults[choice]["tie"] += 1
 
-    print(f"{BOLD}HEAD-TO-HEAD STATS BY THROW TYPE{RESET}")
+    print(f"{bold}HEAD-TO-HEAD STATS BY THROW TYPE{reset}")
     for choice in allResults.keys():
         print(
-            f"{'-' * 40}\n{choice.upper()}\n{'-' * 40}\nTotal Played: {allResults[choice]['total']}\nPlayer Won: {allResults[choice]['playerWin']}\nAI Won: {allResults[choice]['aiWin']}\nTies: {allResults[choice]['tie']}"
+            f"{'-' * 60}\n{cyan}{bold}{choice.upper()}{reset}\n{'-' * 60}\n{bold}Total Played:{reset} {allResults[choice]['total']}\n{bold}Player Won:{reset} {allResults[choice]['playerWin']}\n{bold}AI Won:{reset} {allResults[choice]['aiWin']}\n{bold}Ties:{reset} {allResults[choice]['tie']}"
         )
 
 
 def statisticsReport(gameData):
     """Generates the final statistics report for the game. It calls upon the other functions and puts it all together."""
-    print(f"{BOLD}{'-' * 15}STATISTICS REPORT{'-' * 15}{RESET}\n")
+    print(f"{bold}{cyan}{'-' * 15}END OF SERIES STATISTICS REPORT{'-' * 15}{reset}\n")
+    #print(f"Number of tournaments in series {numTournament}")
     _trackWinLossTie(gameData)  # player's win/loss/tie by throw type
-    print("\n\n" + "-" * 40)
+    print("\n\n" + "-" * 60)
     _winPercentage(gameData)  # the percentage that the player wins over the number of matches
-    print("-" * 40)
+    print("-" * 60)
     _longestWinStreak(gameData)
-    print("-" * 40)
+    print("-" * 60)
     _trackPlayerChoice(gameData)
-    print("-" * 40)
+    print("-" * 60)
     _trackAiChoice(gameData)
-    print("-" * 40 + "\n\n")
+    print("-" * 60 + "\n\n")
     _headToHead(gameData)
