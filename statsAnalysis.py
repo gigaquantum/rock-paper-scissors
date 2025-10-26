@@ -140,9 +140,7 @@ def _longestWinStreak(data):
 
     longestStreak = 1
     currentStreakCount = 1
-    longestStreakType = matchResult[
-        0
-    ]  # this makes it so I start with the first match result
+    longestStreakType = matchResult[0]  # this makes it so I start with the first match result
 
     for r in range(
         1, len(matchResult)
@@ -155,6 +153,9 @@ def _longestWinStreak(data):
         if currentStreakCount > longestStreak:
             longestStreak = currentStreakCount
             longestStreakType = matchResult[r]
+    
+    if longestStreak == 1:
+        print(f"{bold}You had no streaks!{reset}")
 
     if longestStreakType == "win":
         streakLabel = "winning streak"
