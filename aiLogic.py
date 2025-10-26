@@ -13,10 +13,6 @@ import copy
 moveChoices = ["rock", "paper", "scissors"]
 
 
-def _gen_rand_int():
-    return random.randint(1, 3)
-
-
 def _flattenMatchData(moveData: list[list[dict]]) -> list[dict]:
     """Flattens the match data to prepare it for analysis."""
 
