@@ -27,8 +27,8 @@ bold = "\033[1m"
 reset = "\033[0m"
 cyan = "\033[36m"
 
-def _normalizeWinner(match):
-    """This makes sure all my winner labels, if the label is none it renames it as 'tie'."""
+def _normalizeWinner(match): #in some places in parts of the comprehensive game code the winner is referenced as "none" and others its "tie". This will help my stats not get mixed up and ensure proper tracking. Will need this function for other functions!
+    """This makes sure all my winner labels are the same, if the label is none it renames it as 'tie'."""
     winner = match.get("winner","tie")
     if winner == "none":
         winner = "tie"
@@ -47,9 +47,6 @@ def _trackWinLossTie(data):  # the underscore before the name denotes that this 
             choice = match["playerMove"]
             winner = _normalizeWinner(match)
 
-            #if winner == "none":
-            #   winner = "tie"
-
             if winner == "player":
                 allResults[choice]["win"] += 1
             elif winner == "ai":
@@ -57,7 +54,7 @@ def _trackWinLossTie(data):  # the underscore before the name denotes that this 
             elif winner == "tie":
                 allResults[choice]["tie"] += 1
 
-    print(f"{bold}WINS, LOSS AND TIE BY THROW TYPE{reset}")
+    print(f"{bold}WINS, LOSS AND TIE BY THROW TYPE{reset}") #prints a summary table using ANSI codes: throw type should be bold and cyan, wins, losses, tie labels should be bold and their respective values should be printed with no effects.
     for choice in allResults.keys():
         print(
             f"{'-' * 60}\n{cyan}{bold}{choice.upper()}{reset}\n{'-' * 60}\n"
@@ -71,7 +68,7 @@ def _collectMatchResult(data):
     """Compiles all match results throughout the entirety of the game (also known as the series) into a single list. Returns a list of strings with all the match outcomes:'win','lose','tie'."""
     matchResult = []
     for tournament in data:  # collect my match results in order of being played
-        for match in tournament:
+        for match in tournament:  #this loop converts the match outcomes into strings of win, loss, tie and adds them into a list 
             winner = _normalizeWinner(match)
             if winner == "player":
                 matchResult.append("win")
@@ -109,32 +106,32 @@ def _winPercentage(data):
     formula = (win / totalMatch) * 100
     print(f"{bold}You won {cyan}{formula:.2f}%{reset} {bold}of the matches{reset}")
 
-#continue cleaning code and docstrings
+
 def currentStreak(data):
-    """If the last 2 matches have been wins then user is on a winning streak, if last 2 matches have been losses, user is on a losing streak."""
+    """Check's the player's current streak (wins, loss or tie) by looking at the last match results and comparing them with the current match results.Prints a message if the player is currently in a streak of at least 2 consecutive wins, losses or ties. """
     matchResult = _collectMatchResult(data)  # this calls my function above that stores all my match results
 
     lastPlay = matchResult[-1]  # compares only the last 2 results from the tournament
     streakCount = 1
 
-    secondToLast = (len(matchResult) - 2)  # am going to iterate backwards so this shows that i am starting from the second to last match
+    secondToLast = (len(matchResult) - 2)  # am going to iterate backwards so this shows that I am starting from the second to last match
     while secondToLast >= 0 and matchResult[secondToLast] == lastPlay:
         streakCount += 1
         secondToLast -= 1
 
-    if lastPlay == "win":
+    if lastPlay == "win":  #this if elif else will label what kind of streak type it is
         streakLabel = "winning streak"
     elif lastPlay == "loss":
         streakLabel = "losing streak"
     else:
         streakLabel = "tie streak"
 
-    if streakCount >= 2:
+    if streakCount >= 2: #only prints if streak is greater than 2
         print(f"You are currently in a {streakLabel} of length: {streakCount}")
 
 
 def _longestWinStreak(data):
-    """Takes a look at each tournament and determines what the longest streak in that tournament was."""
+    """Calculates and prints the player's longest win streak across all tournaments. If the player never had a streak of 2 or more consecutive wins, prints a message indicating a win streak never ocurred."""
     matchResult = _collectMatchResult(data)
 
     longestStreak = 0
@@ -146,16 +143,16 @@ def _longestWinStreak(data):
             if currentStreakCount > longestStreak:
                 longestStreak = currentStreakCount
         else:
-            currentStreakCount = 0 
+            currentStreakCount = 0 #resets my counter if the outcome wasn't a win
     
-    if longestStreak <= 1:
-        print(f"{bold}You had no streaks!{reset}")
+    if longestStreak <= 1: #only prints if the win streak is 1 or less
+        print(f"{bold}You had no win streaks!{reset}")
     else:
         print(f"{bold}Your longest win streak was: {cyan}{longestStreak}{reset}")
 
 
 def _trackPlayerChoice(data):
-    """Tracks the player's choice throughout the tournament, returns the most common choice."""
+    """Tracks the player's choice for a move across all tournaments, then uses this data to determine the most frequently used move. Prints this move and if there is a tie, all the tied moves are printed."""
     playerCounts = {"rock": 0, "paper": 0, "scissors": 0}
 
     for tournament in data:
@@ -164,22 +161,17 @@ def _trackPlayerChoice(data):
             if choice in playerCounts:
                 playerCounts[choice] += 1
 
-    max_count = max(playerCounts.values())
-    mostCommonPlayerChoice = [
-        choice for choice, count in playerCounts.items() if count == max_count
-    ]
+    maxCount = max(playerCounts.values()) #this line finds the highest num of times a throw/move was chosen by the player. It stores the largest one in maxCount
+    mostCommonPlayerChoice = [choice for choice, count in playerCounts.items() if count == maxCount] #this line handles cases of ties, it iterates through the moves and checks which ones have a count equal to maxCount and adds them to the list mostCommonPlayerChoice
+
     if len(mostCommonPlayerChoice) == 1:
-        print(
-            f"{bold}Most common player move: {cyan}{mostCommonPlayerChoice[0]}{reset}"
-        )
+        print(f"{bold}Most common player move: {cyan}{mostCommonPlayerChoice[0]}{reset}")
     else:
-        print(
-            f"{bold}Most common player move was tied between: {cyan}{', '.join(mostCommonPlayerChoice[:-1])}, and {mostCommonPlayerChoice[-1]}{reset}"
-        )
+        print(f"{bold}Most common player move was tied between: {cyan}{', '.join(mostCommonPlayerChoice[:-1])}, and {mostCommonPlayerChoice[-1]}{reset}")
 
 
 def _trackAiChoice(data):
-    """Tracks AI's choice throughout the tournament, returns its most common choice."""
+    """Tracks the AI's choice for a move across all tournaments, then uses this data to determine the most frequently used move. Prints this move and if there is a tie, all the tied moves are printed."""
 
     aiCounts = {"rock": 0, "paper": 0, "scissors": 0}
 
@@ -189,10 +181,8 @@ def _trackAiChoice(data):
             if choice in aiCounts:
                 aiCounts[choice] += 1
 
-    max_count = max(aiCounts.values())
-    mostCommonAiChoice = [
-        choice for choice, count in aiCounts.items() if count == max_count
-    ]
+    maxCount = max(aiCounts.values()) #same logic that was used in trackPlayerChoice
+    mostCommonAiChoice = [choice for choice, count in aiCounts.items() if count == maxCount]
     if len(mostCommonAiChoice) == 1:
         print(f"{bold}Most common AI move: {cyan}{mostCommonAiChoice[0]}{reset}")
     else:
@@ -202,6 +192,7 @@ def _trackAiChoice(data):
 
 
 def _headToHead(data):
+    """tracks and prints a detailed head-to-head statistics for each move type (rock, paper, scissors) across all tournaments. Prints a detailed summary of: total times the move was played, wins and losses for the player using that move, wins and losses for the AI using that move, number of ties for the move."""
     allResults = {
         "rock": {"total": 0, "playerWin": 0, "playerLoss": 0, "aiWin": 0, "aiLoss": 0, "tie": 0},
         "paper": {"total": 0, "playerWin": 0, "playerLoss": 0, "aiWin": 0, "aiLoss": 0, "tie": 0},
@@ -214,7 +205,7 @@ def _headToHead(data):
             playerChoice = match["playerMove"].strip().lower()
             aiChoice = match["aiMove"].strip().lower()
 
-            allResults[playerChoice]["total"] += 1
+            allResults[playerChoice]["total"] += 1 #tracks the total number of times each move is played
             allResults[aiChoice]["total"] += 1
                     
     
@@ -225,7 +216,7 @@ def _headToHead(data):
                 allResults[aiChoice]["aiWin"] += 1
                 allResults[playerChoice]["playerLoss"] += 1
             elif matchWinner == "tie":
-                allResults[playerChoice]["tie"] += 1
+                allResults[playerChoice]["tie"] += 1   #only counts the tie once since it should be intuitive that if there is a tie it involed 2 of the "total times" the move was played. So if rock total played was: 2 the tie will print 1.
  
     print(f"{bold}HEAD-TO-HEAD STATS BY THROW TYPE{reset}")
     for choice in allResults.keys():
@@ -241,17 +232,17 @@ def _headToHead(data):
 
 
 def statisticsReport(gameData):
-    """Generates the final statistics report for the game. It calls upon the other functions and puts it all together."""
+    """Generates the final statistics report for the game series. It calls upon the other functions and prints it out nicely formatted."""
     if not gameData or not any(gameData):
         print(f"{bold}No data or insufficient data available to generate statistics.{reset}")
         return
 
-    print(f"{bold}{cyan}{'-' * 15}END OF SERIES STATISTICS REPORT{'-' * 15}{reset}\n")
-    _trackWinLossTie(gameData)  # player's win/loss/tie by throw type
+    print(f"{bold}{cyan}{'-' * 15}END OF SERIES STATISTICS REPORT{'-' * 15}{reset}\n") #my table header
+    
+    #calls all of my private functions to generate the stats report
+    _trackWinLossTie(gameData)  
     print("\n\n" + "-" * 60)
-    _winPercentage(
-        gameData
-    )  # the percentage that the player wins over the number of matches
+    _winPercentage(gameData)  
     print("-" * 60)
     _longestWinStreak(gameData)
     print("-" * 60)
