@@ -71,7 +71,9 @@ def playSeries(
             playerMove = str(input("Choose rock, paper, or scissors: ")).strip().lower()
             while playerMove not in ["rock", "paper", "scissors"]:
                 print(f"{bold}{red}Invalid move. Try again.{reset}")
-                playerMove = str(input("\nChoose rock, paper, or scissors: ")).strip().lower()
+                playerMove = (
+                    str(input("\nChoose rock, paper, or scissors: ")).strip().lower()
+                )
 
             # All the AI's difficulty
             if difficulty == "counter":
@@ -110,13 +112,11 @@ def playSeries(
     print("Series complete!\n")
 
     statisticsReport(allMatchData)
-    _waitForUser()
-    clearOutput()
 
     playAgain = input("\nWant to play again? (yes/no): ").strip().lower()
     while playAgain not in ["yes", "no"]:
         print(f"{bold}{red}Invalid input. Please type 'yes' or 'no'.{reset}")
-        playAgain = input("\nWant to play again? (yes/no): ").strip().lower()
+        playAgain = input("\n\nWant to play again? (yes/no): ").strip().lower()
 
     if playAgain == "yes":
         clearOutput()
