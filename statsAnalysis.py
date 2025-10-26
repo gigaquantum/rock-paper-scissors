@@ -22,21 +22,13 @@ gameData = [
     ],
 ]
 
-# will make things bold so that the output is more user friendly and easier to read
+#can use these to improve user experience
 bold = "\033[1m"
 reset = "\033[0m"
-red = "\033[31m"
-green = "\033[32m"
-blue = "\033[34m"
-purple = "\033[35m"
 cyan = "\033[36m"
-underline = "\033[4m"
 
-
-def _trackWinLossTie(
-    data,
-):  # the underscore before the name denotes that this is a private function, and is to be used internally. The only function I will be calling into my Main program will be statisticsReport.
-    """Tracks the result of each match/throw for the player."""
+def _trackWinLossTie(data):  # the underscore before the name denotes that this is a private function, and is to be used internally. The only function I will be calling into my Main program will be statisticsReport.
+    """Tracks the number of wins, losses and ties for each move type the player chose. Will print a nicely formatted summary with all the information."""
 
     allResults = {
         "rock": {"win": 0, "loss": 0, "tie": 0},
@@ -61,12 +53,15 @@ def _trackWinLossTie(
     print(f"{bold}WINS, LOSS AND TIE BY THROW TYPE{reset}")
     for choice in allResults.keys():
         print(
-            f"{'-' * 60}\n{cyan}{bold}{choice.upper()}{reset}\n{'-' * 60}\n{bold}Wins:{reset} {allResults[choice]['win']}\n{bold}Losses:{reset} {allResults[choice]['loss']}\n{bold}Ties:{reset} {allResults[choice]['tie']}"
+            f"{'-' * 60}\n{cyan}{bold}{choice.upper()}{reset}\n{'-' * 60}\n"
+            f"{bold}Wins:{reset} {allResults[choice]['win']}\n"
+            f"{bold}Losses:{reset} {allResults[choice]['loss']}\n"
+            f"{bold}Ties:{reset} {allResults[choice]['tie']}"
         )
 
 
 def _collectMatchResult(data):
-    """This makes a list of the wins, loss, ties per tournament. This can then be used in other functions."""
+    """Compiles all match results throughout the entirety of the game (also known as the series) into a single list. Returns a list of strings with all the match outcomes:'win','lose','tie'."""
     matchResult = []
     for tournament in data:  # collect my match results in order of being played
         for match in tournament:
@@ -80,7 +75,7 @@ def _collectMatchResult(data):
 
 
 def _allWinLossTie(data):
-    """Tracks the wins, losses and ties across all tournaments."""
+    """Computes the number of wins, losses and ties throughout the entirety of the game (also known as the series) and returns it as a tuple (wins,losses,ties)."""
     win = 0
     loss = 0
     tie = 0
@@ -95,30 +90,22 @@ def _allWinLossTie(data):
     return win, loss, tie
 
 
-# calculate win percentage
 def _winPercentage(data):
-    """Tracks the percentage of wins for the user across all tournaments."""
+    """Computes the win percentage across the entirety of the game (also known as the series). The formula for percentage is: the total number of wins divided by the total number of matches played and the quotient multiplied by 100.Prints answer rounded to 2 decimal places."""
     win, loss, tie = _allWinLossTie(data)
     totalMatch = win + loss + tie
-    if totalMatch == 0:  # no division by 0
-        print(f"Not enough matches have been played")
-    else:
-        formula = (win / totalMatch) * 100
+    formula = (win / totalMatch) * 100
     print(f"{bold}You won {cyan}{formula:.2f}%{reset} {bold}of the matches{reset}")
 
-
+#continue cleaning code and docstrings
 def currentStreak(data):
     """If the last 2 matches have been wins then user is on a winning streak, if last 2 matches have been losses, user is on a losing streak."""
-    matchResult = _collectMatchResult(
-        data
-    )  # this calls my function above that stores all my match results
+    matchResult = _collectMatchResult(data)  # this calls my function above that stores all my match results
 
     lastPlay = matchResult[-1]  # compares only the last 2 results from the tournament
     streakCount = 1
 
-    secondToLast = (
-        len(matchResult) - 2
-    )  # am going to iterate backwards so this shows that i am starting from the second to last match
+    secondToLast = (len(matchResult) - 2)  # am going to iterate backwards so this shows that i am starting from the second to last match
     while secondToLast >= 0 and matchResult[secondToLast] == lastPlay:
         streakCount += 1
         secondToLast -= 1
@@ -228,7 +215,7 @@ def _headToHead(data):
            
             playerChoice = match["playerMove"].strip().lower()
             aiChoice = match["aiMove"].strip().lower()
-            
+
             if matchWinner == "none":
                 matchWinner = "tie"
 
@@ -276,3 +263,4 @@ def statisticsReport(gameData):
     _trackAiChoice(gameData)
     print("-" * 60 + "\n\n")
     _headToHead(gameData)
+
