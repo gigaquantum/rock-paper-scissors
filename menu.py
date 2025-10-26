@@ -41,12 +41,9 @@ Z¦¦¦¦¦¦¦¦¦oN2¦oÆ       n¦oN  NÆN2¦¦e   n¦2Æn¦ëÕ   N¦¦NÆn�
 #we can use these to make the output more user friendly and easier to read
 bold = "\033[1m"
 reset = "\033[0m"
-red = "\033[31m"
-green = "\033[92m"
-blue = "\033[34m"
-purple = "\033[35m"
 cyan = "\033[36m"
-underline = "\033[4m"
+red = "\033[31m"
+
 
 def _getValidInput(inputMessage: str, isValidConditional: Callable) -> Any:
     """Gets an input from the user based on the given input message. Checks if it's valid according to the provided conditional; if it's valid, return the value, if it's not valid, ask the user to reenter the input."""
