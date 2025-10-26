@@ -217,9 +217,9 @@ def _trackAiChoice(data):
 
 def _headToHead(data):
     allResults = {
-        "rock": {"total": 0, "playerWin": 0, "aiWin": 0, "tie": 0},
-        "paper": {"total": 0, "playerWin": 0, "aiWin": 0, "tie": 0},
-        "scissors": {"total": 0, "playerWin": 0, "aiWin": 0, "tie": 0},
+        "rock": {"total": 0, "playerWin": 0, "playerLoss": 0, "aiWin": 0, "aiLoss": 0, "tie": 0},
+        "paper": {"total": 0, "playerWin": 0, "playerLoss": 0, "aiWin": 0, "aiLoss": 0, "tie": 0},
+        "scissors": {"total": 0, "playerWin": 0, "playerLoss": 0, "aiWin": 0, "aiLoss": 0, "tie": 0},
     }
     for tournament in data:
         for match in tournament:
@@ -229,25 +229,37 @@ def _headToHead(data):
                 matchWinner = "tie"
 
             for choice in allResults.keys():
-                if (
-                    choice in (match["playerMove"], match["aiMove"])
-                ):  # what were the moves played during this match (player's,ai) and the choice checks if the rock, paper, or scissors matches one of them
+                if (choice in (match["playerMove"], match["aiMove"])):  # what were the moves played during this match (player's,ai) and the choice checks if the rock, paper, or scissors matches one of them
                     allResults[choice]["total"] += 1
-
-                    if matchWinner == "player" and match["playerMove"] == choice:
-                        allResults[choice]["playerWin"] += 1
-                    elif matchWinner == "ai" and match["aiMove"] == choice:
-                        allResults[choice]["aiWin"] += 1
-                    elif matchWinner in [
-                        "tie",
-                        "none",
-                    ]:  #####tried to fix tie counter here
-                        allResults[choice]["tie"] += 1
+                    
+                    #tracks the player    
+                    if match["playerMove"] == choice:
+                        if matchWinner == "player":
+                            allResults[choice]["playerWin"] += 1
+                        elif matchWinner == "ai":
+                            allResults[choice]["playerLoss"] += 1
+                        elif matchWinner == "none":
+                            allResults[choice]["tie"] += 1
+                    
+                    #tracks the ai
+                    if match["aiMove"] == choice:
+                        if matchWinner == "ai":
+                            allResults[choice]["aiWin"] += 1
+                        elif matchWinner == "player":
+                            allResults[choice]["aiLoss"] += 1
+                        elif matchWinner == "none":
+                            allResults[choice]["tie"] += 1
 
     print(f"{bold}HEAD-TO-HEAD STATS BY THROW TYPE{reset}")
     for choice in allResults.keys():
         print(
-            f"{'-' * 60}\n{cyan}{bold}{choice.upper()}{reset}\n{'-' * 60}\n{bold}Total Played:{reset} {allResults[choice]['total']}\n{bold}Player Won:{reset} {allResults[choice]['playerWin']}\n{bold}AI Won:{reset} {allResults[choice]['aiWin']}\n{bold}Ties:{reset} {allResults[choice]['tie']}"
+            f"{'-' * 60}\n{cyan}{bold}{choice.upper()}\n{'-' * 60}{reset}{bold}\n"
+            f"Total times {choice} was played: {cyan}{allResults[choice]['total']}{reset}{bold}\n"
+            f"You won {cyan}{allResults[choice]['playerWin']}{reset}{bold} times using {choice}\n"
+            f"You lost {cyan}{allResults[choice]['playerLoss']}{reset}{bold} times using {choice}\n"
+            f"AI won {cyan}{allResults[choice]['aiWin']}{reset}{bold} when it used {choice}\n"
+            f"AI lost {cyan}{allResults[choice]['aiLoss']}{reset}{bold} when it used {choice}\n"
+            f"There were {cyan}{allResults[choice]['tie']}{reset}{bold} ties with {choice}{reset}"
         )
 
 
