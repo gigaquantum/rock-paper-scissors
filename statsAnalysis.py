@@ -239,7 +239,7 @@ def _headToHead(data):
                             allResults[choice]["playerWin"] += 1
                         elif matchWinner == "ai":
                             allResults[choice]["playerLoss"] += 1
-                        elif matchWinner == "none":
+                        elif matchWinner == "tie":
                             allResults[choice]["tie"] += 1
                     
                     #tracks the ai
@@ -248,7 +248,7 @@ def _headToHead(data):
                             allResults[choice]["aiWin"] += 1
                         elif matchWinner == "player":
                             allResults[choice]["aiLoss"] += 1
-                        elif matchWinner == "none":
+                        elif matchWinner == "tie":
                             allResults[choice]["tie"] += 1
 
     print(f"{bold}HEAD-TO-HEAD STATS BY THROW TYPE{reset}")
