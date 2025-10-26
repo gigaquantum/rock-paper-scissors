@@ -225,12 +225,14 @@ def _headToHead(data):
     for tournament in data:
         for match in tournament:
             matchWinner = match["winner"]
-
+           
+            playerChoice = match["playerMove"].strip().lower()
+            aiChoice = match["aiMove"].strip().lower()
+            
             if matchWinner == "none":
                 matchWinner = "tie"
 
-            playerChoice = match["playerMove"]
-            aiChoice = match["aiMove"]
+
 
             allResults[playerChoice]["total"] += 1
             allResults[aiChoice]["total"] += 1
