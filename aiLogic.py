@@ -13,6 +13,10 @@ import copy
 moveChoices = ["rock", "paper", "scissors"]
 
 
+def _gen_rand_int():
+    return random.randint(1, 3)
+
+
 def _flattenMatchData(moveData: list[list[dict]]) -> list[dict]:
     """Flattens the match data to prepare it for analysis."""
 
@@ -85,7 +89,9 @@ def getPatternAiMove(moveData: list[list[dict]], contextLength: int = 3) -> str:
     # prepares an empty dictionary n dimensions deep
     moveCounts = {move: 0 for move in moveChoices}
     for _ in range(numDimensions):
-        higherDimensionMoveCounts = {move: copy.deepcopy(moveCounts) for move in moveChoices}
+        higherDimensionMoveCounts = {
+            move: copy.deepcopy(moveCounts) for move in moveChoices
+        }
         moveCounts = higherDimensionMoveCounts
 
     # tallies which move came after numDimensions previous move
