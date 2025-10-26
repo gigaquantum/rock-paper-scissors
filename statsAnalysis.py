@@ -231,9 +231,9 @@ def _headToHead(data):
 
             playerChoice = match["playerMove"]
             aiChoice = match["aiMove"]
-            
-            allResults["playerMove"]["total"] += 1
-            allResults["aiMove"]["total"] += 1
+
+            allResults[playerChoice]["total"] += 1
+            allResults[aiChoice]["total"] += 1
                     
     
             if matchWinner == "player":
