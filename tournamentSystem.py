@@ -17,9 +17,7 @@ bold = "\033[1m"
 reset = "\033[0m"
 red = "\033[31m"
 green = "\033[92m"
-blue = "\033[34m"
 purple = "\033[35m"
-cyan = "\033[36m"
 underline = "\033[4m"
 
 
