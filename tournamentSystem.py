@@ -68,10 +68,10 @@ def playSeries(
         while playerScore < requiredWins and aiScore < requiredWins:
             roundNumber += 1
             print(f"\n{bold}Round {roundNumber}{reset}")
-            playerMove = str(input("Choose rock, paper, or scissors: ")).lower()
+            playerMove = str(input("Choose rock, paper, or scissors: ")).strip().lower()
             while playerMove not in ["rock", "paper", "scissors"]:
                 print(f"{bold}{red}Invalid move. Try again.{reset}")
-                playerMove = str(input("\nChoose rock, paper, or scissors: ")).lower()
+                playerMove = str(input("\nChoose rock, paper, or scissors: ")).strip().lower()
 
             # All the AI's difficulty
             if difficulty == "counter":
